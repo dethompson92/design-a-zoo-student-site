@@ -1,0 +1,722 @@
+[
+  {
+    "name": "African Savanna",
+    "image_path": "assets/habitats/habitat_06_african_savanna.png",
+    "animal_count": 62,
+    "region_count": 18,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Large open paddock using trapezoid, pentagon, or composite polygon",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 4500,
+    "cost_max": 85000,
+    "space_min": 12000,
+    "space_max": 100000
+  },
+  {
+    "name": "Alpine Tundra",
+    "image_path": "assets/habitats/habitat_48_alpine_tundra.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Cold-climate yard with semicircle pool and polygon ice zone"
+    ],
+    "cost_min": 1600,
+    "cost_max": 41400,
+    "space_min": 5000,
+    "space_max": 51900
+  },
+  {
+    "name": "Alpine/Mountain",
+    "image_path": "assets/habitats/habitat_13_alpine_mountain.png",
+    "animal_count": 41,
+    "region_count": 21,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Rocky irregular polygon with triangular climbing zones"
+    ],
+    "cost_min": 2500,
+    "cost_max": 55000,
+    "space_min": 8000,
+    "space_max": 70000
+  },
+  {
+    "name": "Amphibian House",
+    "image_path": "assets/habitats/habitat_36_steaming_jungle_floor.png",
+    "animal_count": 37,
+    "region_count": 20,
+    "design_categories": [
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 4500,
+    "cost_max": 65000,
+    "space_min": 6000,
+    "space_max": 38000
+  },
+  {
+    "name": "Antarctic",
+    "image_path": "assets/habitats/habitat_12_antarctic.png",
+    "animal_count": 39,
+    "region_count": 5,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Cold-climate yard with semicircle pool and polygon ice zone"
+    ],
+    "cost_min": 5500,
+    "cost_max": 125000,
+    "space_min": 18000,
+    "space_max": 180000
+  },
+  {
+    "name": "Arctic Tundra",
+    "image_path": "assets/habitats/habitat_11_arctic_tundra.png",
+    "animal_count": 41,
+    "region_count": 7,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Cold-climate yard with semicircle pool and polygon ice zone"
+    ],
+    "cost_min": 2200,
+    "cost_max": 65000,
+    "space_min": 4000,
+    "space_max": 80000
+  },
+  {
+    "name": "Australian Grasslands",
+    "image_path": "assets/habitats/habitat_07_australian_grasslands.png",
+    "animal_count": 20,
+    "region_count": 7,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Large open paddock using trapezoid, pentagon, or composite polygon"
+    ],
+    "cost_min": 2500,
+    "cost_max": 35000,
+    "space_min": 15000,
+    "space_max": 55000
+  },
+  {
+    "name": "Bamboo Forest",
+    "image_path": "assets/habitats/habitat_05_bamboo_forest.png",
+    "animal_count": 25,
+    "region_count": 14,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Forest habitat with irregular polygon and canopy/branch zone"
+    ],
+    "cost_min": 2500,
+    "cost_max": 85000,
+    "space_min": 5500,
+    "space_max": 70000
+  },
+  {
+    "name": "Caves",
+    "image_path": "assets/habitats/habitat_32_caves_remake.png",
+    "animal_count": 40,
+    "region_count": 17,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Themed building with irregular room layout"
+    ],
+    "cost_min": 2500,
+    "cost_max": 22000,
+    "space_min": 3000,
+    "space_max": 22000
+  },
+  {
+    "name": "Cloud Forest",
+    "image_path": "assets/habitats/habitat_29_cloud_forest.png",
+    "animal_count": 34,
+    "region_count": 6,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Rocky irregular polygon with triangular climbing zones"
+    ],
+    "cost_min": 6000,
+    "cost_max": 55000,
+    "space_min": 9000,
+    "space_max": 60000
+  },
+  {
+    "name": "Cold Desert",
+    "image_path": "assets/habitats/habitat_10_cold_desert.png",
+    "animal_count": 10,
+    "region_count": 4,
+    "design_categories": [
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Large open paddock using trapezoid, pentagon, or composite polygon",
+      "Rocky irregular polygon with triangular climbing zones"
+    ],
+    "cost_min": 4500,
+    "cost_max": 65000,
+    "space_min": 6000,
+    "space_max": 60000
+  },
+  {
+    "name": "Coral Atoll",
+    "image_path": "assets/habitats/habitat_46_coral_atoll.png",
+    "animal_count": 29,
+    "region_count": 1,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge"
+    ],
+    "cost_min": 1600,
+    "cost_max": 38700,
+    "space_min": 6400,
+    "space_max": 53700
+  },
+  {
+    "name": "Coral Reef",
+    "image_path": "assets/habitats/habitat_19_coral_reef.png",
+    "animal_count": 54,
+    "region_count": 11,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge"
+    ],
+    "cost_min": 2500,
+    "cost_max": 85000,
+    "space_min": 8000,
+    "space_max": 120000
+  },
+  {
+    "name": "Deep Ocean",
+    "image_path": "assets/habitats/habitat_23_deep_ocean.png",
+    "animal_count": 48,
+    "region_count": 8,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge"
+    ],
+    "cost_min": 42000,
+    "cost_max": 145000,
+    "space_min": 65000,
+    "space_max": 200000
+  },
+  {
+    "name": "Flooded Forests (Várzea/Igapó)",
+    "image_path": "assets/habitats/habitat_45_flooded_forests.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 3400,
+    "cost_max": 40600,
+    "space_min": 4800,
+    "space_max": 53000
+  },
+  {
+    "name": "Freshwater Swamp/Wetlands",
+    "image_path": "assets/habitats/habitat_15_freshwater_swamp.png",
+    "animal_count": 56,
+    "region_count": 16,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 2500,
+    "cost_max": 55000,
+    "space_min": 12000,
+    "space_max": 85000
+  },
+  {
+    "name": "Hot Desert",
+    "image_path": "assets/habitats/habitat_09_hot_desert.png",
+    "animal_count": 15,
+    "region_count": 8,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Large open paddock using trapezoid, pentagon, or composite polygon"
+    ],
+    "cost_min": 2500,
+    "cost_max": 32000,
+    "space_min": 6000,
+    "space_max": 55000
+  },
+  {
+    "name": "Insectarium",
+    "image_path": "assets/habitats/habitat_39_micro_jungle_forest_floor.png",
+    "animal_count": 41,
+    "region_count": 22,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 1500,
+    "cost_max": 28000,
+    "space_min": 5000,
+    "space_max": 20000
+  },
+  {
+    "name": "Invertebrate House",
+    "image_path": "assets/habitats/habitat_40_tide_pool_micro_ecosystem.png",
+    "animal_count": 34,
+    "region_count": 14,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 2500,
+    "cost_max": 125000,
+    "space_min": 6000,
+    "space_max": 45000
+  },
+  {
+    "name": "Island Ecosystems",
+    "image_path": "assets/habitats/habitat_31_island_ecosystems.png",
+    "animal_count": 39,
+    "region_count": 18,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Themed building with irregular room layout"
+    ],
+    "cost_min": 3500,
+    "cost_max": 125000,
+    "space_min": 5000,
+    "space_max": 90000
+  },
+  {
+    "name": "Kelp Forest",
+    "image_path": "assets/habitats/habitat_24_kelp_forest.png",
+    "animal_count": 41,
+    "region_count": 4,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge"
+    ],
+    "cost_min": 1500,
+    "cost_max": 55000,
+    "space_min": 6000,
+    "space_max": 70000
+  },
+  {
+    "name": "Lakes & Ponds",
+    "image_path": "assets/habitats/habitat_18_lakes_ponds.png",
+    "animal_count": 44,
+    "region_count": 10,
+    "design_categories": [
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 2500,
+    "cost_max": 15000,
+    "space_min": 15000,
+    "space_max": 48000
+  },
+  {
+    "name": "Madagascar Dry Forest",
+    "image_path": "assets/habitats/habitat_25_madagascar_dry_forest.png",
+    "animal_count": 39,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 4500,
+    "cost_max": 32000,
+    "space_min": 7000,
+    "space_max": 42000
+  },
+  {
+    "name": "Madagascar Rainforest",
+    "image_path": "assets/habitats/habitat_26_madagascar_rainforest.png",
+    "animal_count": 40,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 4500,
+    "cost_max": 38000,
+    "space_min": 6000,
+    "space_max": 45000
+  },
+  {
+    "name": "Mangrove Forest",
+    "image_path": "assets/habitats/habitat_16_mangrove_forest.png",
+    "animal_count": 39,
+    "region_count": 15,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 300,
+    "cost_max": 55000,
+    "space_min": 4000,
+    "space_max": 80000
+  },
+  {
+    "name": "Mediterranean Scrubland",
+    "image_path": "assets/habitats/habitat_27_mediterranean_scrubland.png",
+    "animal_count": 38,
+    "region_count": 8,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Large open paddock using trapezoid, pentagon, or composite polygon"
+    ],
+    "cost_min": 2500,
+    "cost_max": 55000,
+    "space_min": 5000,
+    "space_max": 45000
+  },
+  {
+    "name": "Nocturnal House",
+    "image_path": "assets/habitats/habitat_33_nocturnal_forest.png",
+    "animal_count": 30,
+    "region_count": 18,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Themed building with irregular room layout"
+    ],
+    "cost_min": 4500,
+    "cost_max": 55000,
+    "space_min": 8000,
+    "space_max": 35000
+  },
+  {
+    "name": "Peat Bogs & Moorlands",
+    "image_path": "assets/habitats/habitat_44_peat_bogs_moorlands.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Themed building with irregular room layout"
+    ],
+    "cost_min": 4700,
+    "cost_max": 39900,
+    "space_min": 5300,
+    "space_max": 53600
+  },
+  {
+    "name": "Polar Marine",
+    "image_path": "assets/habitats/habitat_22_polar_marine.png",
+    "animal_count": 15,
+    "region_count": 4,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge"
+    ],
+    "cost_min": 5500,
+    "cost_max": 110000,
+    "space_min": 12000,
+    "space_max": 140000
+  },
+  {
+    "name": "Páramo",
+    "image_path": "assets/habitats/habitat_50_paramo.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Rocky irregular polygon with triangular climbing zones"
+    ],
+    "cost_min": 2600,
+    "cost_max": 40100,
+    "space_min": 4400,
+    "space_max": 43200
+  },
+  {
+    "name": "Reptile House - Desert",
+    "image_path": "assets/habitats/habitat_37_deep_desert_dunes.png",
+    "animal_count": 37,
+    "region_count": 19,
+    "design_categories": [
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 3500,
+    "cost_max": 28000,
+    "space_min": 6000,
+    "space_max": 30000
+  },
+  {
+    "name": "Reptile House - Tropical",
+    "image_path": "assets/habitats/habitat_38_wet_rainforest_understory.png",
+    "animal_count": 26,
+    "region_count": 13,
+    "design_categories": [
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 4500,
+    "cost_max": 45000,
+    "space_min": 8000,
+    "space_max": 45000
+  },
+  {
+    "name": "Rivers & Streams",
+    "image_path": "assets/habitats/habitat_17_rivers_streams.png",
+    "animal_count": 36,
+    "region_count": 17,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 2500,
+    "cost_max": 85000,
+    "space_min": 8000,
+    "space_max": 80000
+  },
+  {
+    "name": "Salt Marsh",
+    "image_path": "assets/habitats/habitat_47_salt_marsh.png",
+    "animal_count": 28,
+    "region_count": 1,
+    "design_categories": [
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 2000,
+    "cost_max": 41200,
+    "space_min": 6400,
+    "space_max": 53200
+  },
+  {
+    "name": "Seasonal Tropical Forest",
+    "image_path": "assets/habitats/habitat_30_seasonal_tropical_forest.png",
+    "animal_count": 41,
+    "region_count": 9,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 4500,
+    "cost_max": 85000,
+    "space_min": 12000,
+    "space_max": 95000
+  },
+  {
+    "name": "South American Grasslands (Pampas)",
+    "image_path": "assets/habitats/habitat_08_south_american_pampas.png",
+    "animal_count": 9,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Large open paddock using trapezoid, pentagon, or composite polygon"
+    ],
+    "cost_min": 4500,
+    "cost_max": 28000,
+    "space_min": 12000,
+    "space_max": 50000
+  },
+  {
+    "name": "Steppe",
+    "image_path": "assets/habitats/habitat_49_steppe.png",
+    "animal_count": 29,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Rocky irregular polygon with triangular climbing zones"
+    ],
+    "cost_min": 3000,
+    "cost_max": 39600,
+    "space_min": 4700,
+    "space_max": 50500
+  },
+  {
+    "name": "Subterranean/Underground",
+    "image_path": "assets/habitats/habitat_42_subterranean_underground.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Large open paddock using trapezoid, pentagon, or composite polygon",
+      "Themed building with irregular room layout"
+    ],
+    "cost_min": 3300,
+    "cost_max": 41400,
+    "space_min": 4900,
+    "space_max": 51700
+  },
+  {
+    "name": "Subtropical Highland",
+    "image_path": "assets/habitats/habitat_14_subtropical_highland.png",
+    "animal_count": 34,
+    "region_count": 6,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Rocky irregular polygon with triangular climbing zones"
+    ],
+    "cost_min": 2500,
+    "cost_max": 45000,
+    "space_min": 6000,
+    "space_max": 60000
+  },
+  {
+    "name": "Taiga/Boreal Forest",
+    "image_path": "assets/habitats/habitat_28_taiga_boreal_forest.png",
+    "animal_count": 27,
+    "region_count": 6,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone"
+    ],
+    "cost_min": 1500,
+    "cost_max": 95000,
+    "space_min": 4000,
+    "space_max": 80000
+  },
+  {
+    "name": "Temperate Aviary",
+    "image_path": "assets/habitats/habitat_34_temperate_forest_canopy.png",
+    "animal_count": 44,
+    "region_count": 11,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design"
+    ],
+    "cost_min": 2500,
+    "cost_max": 8500,
+    "space_min": 9500,
+    "space_max": 16000
+  },
+  {
+    "name": "Temperate Coastal",
+    "image_path": "assets/habitats/habitat_21_temperate_coastal.png",
+    "animal_count": 43,
+    "region_count": 11,
+    "design_categories": [
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 4000,
+    "cost_max": 45000,
+    "space_min": 13000,
+    "space_max": 70000
+  },
+  {
+    "name": "Temperate Coniferous Forest",
+    "image_path": "assets/habitats/habitat_04_temperate_coniferous_forest.png",
+    "animal_count": 49,
+    "region_count": 16,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 1500,
+    "cost_max": 95000,
+    "space_min": 3000,
+    "space_max": 65000
+  },
+  {
+    "name": "Temperate Deciduous Forest",
+    "image_path": "assets/habitats/habitat_03_temperate_deciduous_forest.png",
+    "animal_count": 62,
+    "region_count": 19,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 800,
+    "cost_max": 32000,
+    "space_min": 4000,
+    "space_max": 60000
+  },
+  {
+    "name": "Tropical Aviary",
+    "image_path": "assets/habitats/habitat_35_deep_tropical_jungle.png",
+    "animal_count": 32,
+    "region_count": 13,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design"
+    ],
+    "cost_min": 3500,
+    "cost_max": 125000,
+    "space_min": 11000,
+    "space_max": 55000
+  },
+  {
+    "name": "Tropical Coastal/Beach",
+    "image_path": "assets/habitats/habitat_20_tropical_coastal.png",
+    "animal_count": 39,
+    "region_count": 14,
+    "design_categories": [
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 1200,
+    "cost_max": 75000,
+    "space_min": 5000,
+    "space_max": 90000
+  },
+  {
+    "name": "Tropical Rainforest - Canopy",
+    "image_path": "assets/habitats/habitat_01_tropical_rainforest_canopy.png",
+    "animal_count": 76,
+    "region_count": 22,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 3000,
+    "cost_max": 85000,
+    "space_min": 4500,
+    "space_max": 72000
+  },
+  {
+    "name": "Tropical Rainforest - Floor",
+    "image_path": "assets/habitats/habitat_02_tropical_rainforest_floor.png",
+    "animal_count": 71,
+    "region_count": 22,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Forest habitat with irregular polygon and canopy/branch zone",
+      "Indoor habitat pod with composite rectangles and viewing window"
+    ],
+    "cost_min": 2500,
+    "cost_max": 60000,
+    "space_min": 6000,
+    "space_max": 82000
+  },
+  {
+    "name": "Urban/City Wildlife",
+    "image_path": "assets/habitats/habitat_43_reclaimed_abandoned_city.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aquatic tank or lagoon composite with curved edge",
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Themed building with irregular room layout"
+    ],
+    "cost_min": 2600,
+    "cost_max": 40500,
+    "space_min": 4800,
+    "space_max": 52900
+  },
+  {
+    "name": "Volcanic Islands",
+    "image_path": "assets/habitats/habitat_41_volcanic_islands.png",
+    "animal_count": 30,
+    "region_count": 1,
+    "design_categories": [
+      "Aviary or bird yard using regular polygon/apothem design",
+      "Cold-climate yard with semicircle pool and polygon ice zone",
+      "Indoor habitat pod with composite rectangles and viewing window",
+      "Large open paddock using trapezoid, pentagon, or composite polygon",
+      "Themed building with irregular room layout",
+      "Water-and-land exhibit with rectangle plus semicircle/quarter-circle"
+    ],
+    "cost_min": 2500,
+    "cost_max": 39000,
+    "space_min": 8100,
+    "space_max": 53700
+  }
+]

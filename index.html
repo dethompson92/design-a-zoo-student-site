@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Design a Zoo Animal Choices</title>
+    <meta
+      name="description"
+      content="Student-facing animal and habitat database for the Design a Zoo project."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Student database</p>
+          <h1>Design a Zoo Animal Choices</h1>
+          <p class="subhead">
+            Compare animal options, habitat needs, space requirements, costs, and enclosure design hints for the zoo project.
+          </p>
+        </div>
+        <div class="budget-badge" aria-label="Project budget">
+          <span>Project Budget</span>
+          <strong>$2,000,000</strong>
+        </div>
+      </header>
+
+      <section class="notice" aria-label="Classroom data note">
+        <strong>Classroom data note:</strong>
+        Values are simplified for math modeling and student design decisions. They are not real animal-care standards.
+      </section>
+
+      <section class="metrics" aria-label="Database summary">
+        <div class="metric">
+          <span>Total Entries</span>
+          <strong id="totalEntries">0</strong>
+        </div>
+        <div class="metric">
+          <span>Habitats</span>
+          <strong id="totalHabitats">0</strong>
+        </div>
+        <div class="metric">
+          <span>Visible Choices</span>
+          <strong id="visibleChoices">0</strong>
+        </div>
+        <div class="metric">
+          <span>Unique Animals</span>
+          <strong id="uniqueAnimals">0</strong>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <aside class="filters" aria-label="Filter animal database">
+          <div class="filter-head">
+            <h2>Filters</h2>
+            <button class="ghost-button" id="resetFilters" type="button">Reset</button>
+          </div>
+
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="search" placeholder="Animal, species, region, habitat">
+
+          <label for="habitatFilter">Habitat</label>
+          <select id="habitatFilter">
+            <option value="">All habitats</option>
+          </select>
+
+          <label for="regionFilter">Region</label>
+          <select id="regionFilter">
+            <option value="">All regions</option>
+          </select>
+
+          <label for="designFilter">Design category</label>
+          <select id="designFilter">
+            <option value="">All designs</option>
+          </select>
+
+          <label for="maxCost">Max cost per animal</label>
+          <input id="maxCost" type="number" min="0" step="100" placeholder="No limit">
+
+          <label for="maxSpace">Max first-animal space</label>
+          <input id="maxSpace" type="number" min="0" step="100" placeholder="No limit">
+        </aside>
+
+        <main class="results-area">
+          <section class="habitat-spotlight" id="habitatSpotlight" aria-label="Selected habitat">
+            <img id="habitatSpotlightImage" src="" alt="" loading="eager">
+            <div class="habitat-copy">
+              <p class="eyebrow">Habitat focus</p>
+              <h2 id="habitatSpotlightTitle">All habitats</h2>
+              <p id="habitatSpotlightMeta">50 habitat choices are available for student zoo planning.</p>
+            </div>
+          </section>
+
+          <section class="results-toolbar" aria-label="Results controls">
+            <div>
+              <h2 id="resultsTitle">Animal Choices</h2>
+              <p id="resultsMeta">Loading database...</p>
+            </div>
+            <div class="toolbar-actions">
+              <label for="sortSelect">Sort</label>
+              <select id="sortSelect">
+                <option value="animal_name">Animal name</option>
+                <option value="primary_habitat">Habitat</option>
+                <option value="cost_per_animal_usd">Cost</option>
+                <option value="space_first_animal_sq_units">Space</option>
+                <option value="minimum_family_group">Group size</option>
+              </select>
+              <div class="view-toggle" aria-label="View mode">
+                <button id="cardViewButton" class="active" type="button">Cards</button>
+                <button id="tableViewButton" type="button">Table</button>
+              </div>
+            </div>
+          </section>
+
+          <div id="statusMessage" class="status-message" role="status"></div>
+          <section id="cardResults" class="card-grid" aria-label="Animal cards"></section>
+
+          <section id="tableResults" class="table-panel hidden" aria-label="Animal table">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Animal</th>
+                    <th>Habitat</th>
+                    <th>Region</th>
+                    <th>Space</th>
+                    <th>Group</th>
+                    <th>Cost</th>
+                    <th>Design Hint</th>
+                  </tr>
+                </thead>
+                <tbody id="animalTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="pagination">
+            <button id="loadMoreButton" type="button">Load More</button>
+            <span id="pageMeta"></span>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
