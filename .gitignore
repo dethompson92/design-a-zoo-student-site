@@ -4,3 +4,7 @@ __pycache__/
 .pytest_cache/
 .idea/
 .vscode/
+.image-review/
+.image-cache/
+data/animal_image_manifest.json
+data/animal_image_worklist.csv

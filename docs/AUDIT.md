@@ -1,6 +1,6 @@
 # Design a Zoo Public Student Website Audit
 
-Generated: 2026-05-18 00:41:19
+Generated: 2026-05-18 01:20:52
 
 ## Source of Truth
 
@@ -11,6 +11,8 @@ Generated: 2026-05-18 00:41:19
 - Habitats: 50
 - World/region labels: 223
 - Rows with `scientific_name = "Not specified"`: 296
+- Animal rows with approved images: 0
+- Unique approved animal image files: 0
 
 ## Published Files
 
@@ -31,7 +33,8 @@ Generated: 2026-05-18 00:41:19
 
 - Duplicate animal names are valid because some animals appear as choices in multiple habitats.
 - Classroom values are simplified for math modeling and are not real animal-care standards.
-- Individual animal images are not published yet. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
+- Individual animal images are only published after batch approval. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
+- Approved image records also include `image_license_name`, `image_license_url`, and `image_provider`.
 - Habitat images are available now. Some student habitat labels needed explicit mapping to the closest existing habitat asset.
 
 ## Explicit Habitat Image Mappings

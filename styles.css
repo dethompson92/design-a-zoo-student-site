@@ -334,6 +334,12 @@ button:focus-visible {
   display: block;
 }
 
+.animal-media-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .image-status {
   position: absolute;
   left: 10px;
@@ -438,6 +444,24 @@ button:focus-visible {
   font-size: 0.86rem;
 }
 
+.photo-credit {
+  margin: -2px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.photo-credit a,
+.table-credit {
+  color: var(--teal);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.photo-credit a:hover,
+.table-credit:hover {
+  text-decoration: underline;
+}
+
 .table-panel {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -452,7 +476,7 @@ button:focus-visible {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 940px;
+  min-width: 1040px;
 }
 
 th,
@@ -475,6 +499,21 @@ td {
 
 tbody tr:nth-child(even) {
   background: #f7faf8;
+}
+
+.table-photo {
+  display: block;
+  width: 76px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+}
+
+.table-credit {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.74rem;
 }
 
 .pagination {

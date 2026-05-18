@@ -43,6 +43,9 @@ REQUIRED_ANIMAL_KEYS = {
     "image_alt",
     "image_credit",
     "image_source",
+    "image_license_name",
+    "image_license_url",
+    "image_provider",
 }
 
 NUMERIC_KEYS = {
@@ -71,6 +74,19 @@ FORBIDDEN_PUBLIC_PATHS = [
     "tool_activity",
     "ai_thinking",
 ]
+
+ALLOWED_LICENSE_TOKENS = {
+    "cc0",
+    "public domain",
+    "publicdomain",
+    "pd",
+    "pdm",
+    "cc by",
+    "cc-by",
+    "cc-by-sa",
+    "cc by-sa",
+    "cc by sa",
+}
 
 
 def load_json(path: str) -> object:
@@ -118,6 +134,18 @@ def validate_data() -> None:
         require(row["minimum_family_group"] >= 1, f"{row['animal_id']} minimum_family_group must be at least 1")
         if row["animal_image_path"]:
             require((SITE_ROOT / row["animal_image_path"]).exists(), f"Missing animal image: {row['animal_image_path']}")
+            require(row["image_credit"], f"{row['animal_id']} image_credit is required for approved images")
+            require(row["image_source"], f"{row['animal_id']} image_source is required for approved images")
+            require(row["image_license_name"], f"{row['animal_id']} image_license_name is required for approved images")
+            require(row["image_license_url"], f"{row['animal_id']} image_license_url is required for approved images")
+            normalized_license = row["image_license_name"].lower().replace("_", " ")
+            require(
+                any(token in normalized_license for token in ALLOWED_LICENSE_TOKENS),
+                f"{row['animal_id']} has a disallowed image license: {row['image_license_name']}",
+            )
+        else:
+            require(not row["image_credit"], f"{row['animal_id']} has image_credit without image_path")
+            require(not row["image_source"], f"{row['animal_id']} has image_source without image_path")
 
     for habitat in habitats:
         require((SITE_ROOT / habitat["image_path"]).exists(), f"Missing habitat image: {habitat['image_path']}")

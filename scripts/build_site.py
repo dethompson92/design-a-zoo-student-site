@@ -20,6 +20,7 @@ SOURCE_HABITATS = PROJECT_ROOT / "Wild_Ecosystem_Habitats_Collection"
 DATA_DIR = SITE_ROOT / "data"
 ASSET_DIR = SITE_ROOT / "assets" / "habitats"
 DOCS_DIR = SITE_ROOT / "docs"
+IMAGE_MANIFEST = DATA_DIR / "animal_image_manifest.json"
 
 EXPECTED_ROWS = 1844
 EXPECTED_HABITATS = 50
@@ -48,6 +49,9 @@ PUBLIC_ANIMAL_COLUMNS = REQUIRED_SOURCE_COLUMNS + [
     "image_alt",
     "image_credit",
     "image_source",
+    "image_license_name",
+    "image_license_url",
+    "image_provider",
 ]
 
 HABITAT_IMAGE_OVERRIDES = {
@@ -91,7 +95,39 @@ def parse_int(row: dict[str, str], key: str) -> int:
     return int(raw)
 
 
+def load_image_manifest() -> dict[str, dict[str, object]]:
+    if not IMAGE_MANIFEST.exists():
+        return {}
+
+    raw_manifest = json.loads(IMAGE_MANIFEST.read_text(encoding="utf-8"))
+    if not isinstance(raw_manifest, dict):
+        raise SystemExit("data/animal_image_manifest.json must be an object keyed by animal name")
+    return raw_manifest
+
+
+def approved_image_for(manifest: dict[str, dict[str, object]], animal_name: str) -> dict[str, str]:
+    record = manifest.get(animal_name)
+    if not record or record.get("review_status") != "approved":
+        return {}
+
+    image_path = str(record.get("image_path") or "").strip()
+    if not image_path:
+        return {}
+
+    return {
+        "animal_image_path": image_path,
+        "image_alt": str(record.get("alt_text") or f"{animal_name} photo").strip(),
+        "image_credit": str(record.get("credit") or "").strip(),
+        "image_source": str(record.get("source_url") or "").strip(),
+        "image_license_name": str(record.get("license_name") or "").strip(),
+        "image_license_url": str(record.get("license_url") or "").strip(),
+        "image_provider": str(record.get("provider") or "").strip(),
+    }
+
+
 def load_rows() -> list[dict[str, object]]:
+    image_manifest = load_image_manifest()
+
     with SOURCE_CSV.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         missing_columns = [column for column in REQUIRED_SOURCE_COLUMNS if column not in reader.fieldnames]
@@ -124,7 +160,11 @@ def load_rows() -> list[dict[str, object]]:
                 "image_alt": f"{row['animal_name'].strip()} image placeholder",
                 "image_credit": "",
                 "image_source": "",
+                "image_license_name": "",
+                "image_license_url": "",
+                "image_provider": "",
             }
+            animal.update(approved_image_for(image_manifest, animal["animal_name"]))
             animals.append(animal)
 
     animals.sort(key=lambda item: (str(item["animal_name"]).lower(), str(item["primary_habitat"]).lower(), str(item["animal_id"])))
@@ -194,6 +234,8 @@ def audit_markdown(animals: list[dict[str, object]], habitats: list[dict[str, ob
     animal_names = [str(row["animal_name"]) for row in animals]
     duplicate_names = [name for name, count in Counter(animal_names).items() if count > 1]
     not_specified = sum(1 for row in animals if row["scientific_name"] == "Not specified")
+    rows_with_images = sum(1 for row in animals if row.get("animal_image_path"))
+    unique_images = len({str(row["animal_image_path"]) for row in animals if row.get("animal_image_path")})
     regions = {str(row["world_region"]) for row in animals}
     designs = Counter(str(row["suggested_enclosure_design_category"]) for row in animals)
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -217,6 +259,8 @@ Generated: {generated_at}
 - Habitats: {len(habitats):,}
 - World/region labels: {len(regions):,}
 - Rows with `scientific_name = "Not specified"`: {not_specified:,}
+- Animal rows with approved images: {rows_with_images:,}
+- Unique approved animal image files: {unique_images:,}
 
 ## Published Files
 
@@ -237,7 +281,8 @@ Generated: {generated_at}
 
 - Duplicate animal names are valid because some animals appear as choices in multiple habitats.
 - Classroom values are simplified for math modeling and are not real animal-care standards.
-- Individual animal images are not published yet. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
+- Individual animal images are only published after batch approval. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
+- Approved image records also include `image_license_name`, `image_license_url`, and `image_provider`.
 - Habitat images are available now. Some student habitat labels needed explicit mapping to the closest existing habitat asset.
 
 ## Explicit Habitat Image Mappings

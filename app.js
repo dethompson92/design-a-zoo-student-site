@@ -160,11 +160,29 @@ function animalImageMarkup(animal) {
     ? animal.image_alt
     : `${animal.primary_habitat} habitat preview for ${animal.animal_name}`;
   const status = animal.animal_image_path ? "" : '<span class="image-status">Image pending</span>';
+  const image = `<img src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}" loading="lazy">`;
+  const linkedImage = animal.animal_image_path && animal.image_source
+    ? `<a class="animal-media-link" href="${escapeHtml(animal.image_source)}" target="_blank" rel="noopener noreferrer">${image}</a>`
+    : image;
   return `
     <div class="animal-media">
-      <img src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}" loading="lazy">
+      ${linkedImage}
       ${status}
     </div>
+  `;
+}
+
+function imageCreditMarkup(animal) {
+  if (!animal.animal_image_path) {
+    return '<p class="photo-credit">Habitat placeholder shown until an animal photo is approved.</p>';
+  }
+  const credit = animal.image_credit || "Image credit";
+  const license = animal.image_license_name ? ` · ${animal.image_license_name}` : "";
+  const provider = animal.image_provider ? ` · ${animal.image_provider}` : "";
+  return `
+    <p class="photo-credit">
+      Photo: <a href="${escapeHtml(animal.image_source)}" target="_blank" rel="noopener noreferrer">${escapeHtml(credit)}</a>${escapeHtml(license)}${escapeHtml(provider)}
+    </p>
   `;
 }
 
@@ -189,14 +207,29 @@ function cardTemplate(animal) {
         </div>
         <p class="design-hint">${escapeHtml(animal.suggested_enclosure_design_category)}</p>
         <p class="equation">${escapeHtml(animal.swagg_revenue_equation)}</p>
+        ${imageCreditMarkup(animal)}
       </div>
     </article>
   `;
 }
 
 function tableRowTemplate(animal) {
+  const habitat = getHabitat(animal.primary_habitat);
+  const imagePath = animal.animal_image_path || (habitat ? habitat.image_path : DEFAULT_SPOTLIGHT_IMAGE);
+  const alt = animal.animal_image_path
+    ? animal.image_alt
+    : `${animal.primary_habitat} habitat preview for ${animal.animal_name}`;
+  const creditHref = animal.animal_image_path && animal.image_source ? animal.image_source : "";
   return `
     <tr>
+      <td>
+        <img class="table-photo" src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}" loading="lazy">
+        ${
+          creditHref
+            ? `<a class="table-credit" href="${escapeHtml(creditHref)}" target="_blank" rel="noopener noreferrer">Credit</a>`
+            : '<span class="table-credit">Pending</span>'
+        }
+      </td>
       <td><strong>${escapeHtml(animal.animal_name)}</strong><br><span class="species">${escapeHtml(animal.scientific_name)}</span></td>
       <td>${escapeHtml(animal.primary_habitat)}</td>
       <td>${escapeHtml(animal.world_region)}</td>
