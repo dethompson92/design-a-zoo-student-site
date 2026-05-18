@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zoo Lab Student Tools</title>
+    <meta
+      name="description"
+      content="Interactive probability, survey, budget, revenue, and design-constraint tools for the Design a Zoo project."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell student-page zoo-lab-page">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Student tools</p>
+          <h1>Zoo Lab</h1>
+          <p class="subhead">
+            Run simulations, model visitor data, test your budget, and check enclosure dimensions for your zoo design.
+          </p>
+        </div>
+        <div class="budget-badge" aria-label="Project budget">
+          <span>Project Budget</span>
+          <strong>$2,500,000</strong>
+        </div>
+      </header>
+
+      <nav class="site-nav" aria-label="Student pages">
+        <a href="index.html">Animal Choices</a>
+        <a href="tools.html" class="active">Zoo Lab</a>
+        <a href="geometry.html">Geometry Examples</a>
+        <a href="enclosure-examples.html">Enclosure Sizes</a>
+      </nav>
+
+      <section class="notice" aria-label="Classroom data note">
+        <strong>Classroom data note:</strong>
+        These tools use the same simplified planning data as the animal database. Space and cost checks are for classroom math modeling, not real animal-care standards.
+      </section>
+
+      <section class="metrics lab-metrics" aria-label="Zoo Lab summary">
+        <div class="metric">
+          <span>Animal Choices</span>
+          <strong id="labAnimalCount">0</strong>
+        </div>
+        <div class="metric">
+          <span>Habitats</span>
+          <strong id="labHabitatCount">0</strong>
+        </div>
+        <div class="metric">
+          <span>Approved Photos</span>
+          <strong id="labPhotoCount">0</strong>
+        </div>
+        <div class="metric">
+          <span>Budget Left</span>
+          <strong id="labBudgetLeft">$2,500,000</strong>
+        </div>
+      </section>
+
+      <div class="lab-tabs" role="tablist" aria-label="Zoo Lab tools">
+        <button class="active" id="probabilityTab" type="button" role="tab" aria-selected="true" aria-controls="probabilityPanel" data-tool-tab="probability">Probability</button>
+        <button id="surveyTab" type="button" role="tab" aria-selected="false" aria-controls="surveyPanel" data-tool-tab="survey">Survey Data</button>
+        <button id="budgetTab" type="button" role="tab" aria-selected="false" aria-controls="budgetPanel" data-tool-tab="budget">Budget + Revenue</button>
+        <button id="constraintTab" type="button" role="tab" aria-selected="false" aria-controls="constraintPanel" data-tool-tab="constraint">Design Check</button>
+      </div>
+
+      <main class="lab-panels">
+        <section class="tool-panel" id="probabilityPanel" role="tabpanel" aria-labelledby="probabilityTab">
+          <div class="tool-panel-head">
+            <div>
+              <p class="eyebrow">Day 11 model</p>
+              <h2>Zoo Probability Lab</h2>
+            </div>
+            <button class="ghost-button" id="copyProbabilitySummary" type="button">Copy Summary</button>
+          </div>
+
+          <div class="tool-grid two-column">
+            <section class="tool-card">
+              <div class="field-grid two-column">
+                <div class="resource-field">
+                  <label for="probabilityModel">Chance situation</label>
+                  <select id="probabilityModel"></select>
+                </div>
+                <div class="resource-field">
+                  <label for="trialCount">Trials</label>
+                  <input id="trialCount" type="number" min="1" max="5000" step="1" value="30">
+                </div>
+              </div>
+
+              <div class="quick-actions" aria-label="Trial shortcuts">
+                <button class="ghost-button" type="button" data-trial-count="30">30</button>
+                <button class="ghost-button" type="button" data-trial-count="100">100</button>
+                <button class="ghost-button" type="button" data-trial-count="500">500</button>
+                <button class="primary-button" id="runProbability" type="button">Run</button>
+              </div>
+
+              <div class="editable-list-head">
+                <h3>Outcomes</h3>
+                <button class="ghost-button" id="addOutcome" type="button">Add Outcome</button>
+              </div>
+              <div class="table-scroll compact-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Outcome</th>
+                      <th>Weight</th>
+                      <th><span class="sr-only">Remove</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="outcomeRows"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="tool-card result-card" aria-live="polite">
+              <h3>Simulation Results</h3>
+              <p id="probabilityStatus" class="status-message">Choose a model and run trials.</p>
+              <div id="sampleSpace" class="summary-box"></div>
+              <div id="probabilityChart" class="chart-list"></div>
+              <textarea id="probabilitySummary" class="summary-textarea" readonly aria-label="Probability summary"></textarea>
+            </section>
+          </div>
+        </section>
+
+        <section class="tool-panel hidden" id="surveyPanel" role="tabpanel" aria-labelledby="surveyTab">
+          <div class="tool-panel-head">
+            <div>
+              <p class="eyebrow">Day 12 data</p>
+              <h2>Visitor Survey + Data Displays</h2>
+            </div>
+            <button class="ghost-button" id="copySurveySummary" type="button">Copy Summary</button>
+          </div>
+
+          <div class="tool-grid two-column">
+            <section class="tool-card">
+              <div class="field-grid two-column">
+                <div class="resource-field">
+                  <label for="samplingMethod">Sampling method</label>
+                  <select id="samplingMethod">
+                    <option value="Convenience sample">Convenience sample</option>
+                    <option value="Random sample">Random sample</option>
+                    <option value="Stratified sample">Stratified sample</option>
+                    <option value="Class-created sample">Class-created sample</option>
+                  </select>
+                </div>
+                <div class="resource-field">
+                  <label for="surveyLimitation">Limitation</label>
+                  <input id="surveyLimitation" type="text" value="The sample may not represent every zoo visitor.">
+                </div>
+              </div>
+
+              <div class="quick-actions">
+                <button class="ghost-button" id="loadSampleSurvey" type="button">Load Sample</button>
+                <button class="ghost-button" id="addSurveyRow" type="button">Add Category</button>
+              </div>
+
+              <div class="table-scroll compact-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Count</th>
+                      <th><span class="sr-only">Remove</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="surveyRows"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="tool-card result-card" aria-live="polite">
+              <h3>Data Display</h3>
+              <div class="kpi-grid">
+                <div><span>Total Responses</span><strong id="surveyTotal">0</strong></div>
+                <div><span>Largest Category</span><strong id="surveyLargest">None</strong></div>
+              </div>
+              <div id="surveyChart" class="chart-list"></div>
+              <textarea id="surveySummary" class="summary-textarea" readonly aria-label="Survey summary"></textarea>
+            </section>
+          </div>
+        </section>
+
+        <section class="tool-panel hidden" id="budgetPanel" role="tabpanel" aria-labelledby="budgetTab">
+          <div class="tool-panel-head">
+            <div>
+              <p class="eyebrow">Day 13 financials</p>
+              <h2>Budget + Revenue Studio</h2>
+            </div>
+            <button class="ghost-button" id="copyBudgetSummary" type="button">Copy Summary</button>
+          </div>
+
+          <div class="tool-grid">
+            <section class="tool-card">
+              <div class="field-grid three-column">
+                <div class="resource-field">
+                  <label for="animalSearch">Find animal</label>
+                  <input id="animalSearch" type="search" placeholder="Search animal, habitat, or region">
+                </div>
+                <div class="resource-field">
+                  <label for="budgetAdjustment">Percent event</label>
+                  <select id="budgetAdjustment">
+                    <option value="0">No percent event</option>
+                    <option value="8">8% transport/setup fee</option>
+                    <option value="10">10% emergency reserve</option>
+                    <option value="-12">12% conservation grant</option>
+                    <option value="-5">5% redesign savings</option>
+                    <option value="custom">Custom percent</option>
+                  </select>
+                </div>
+                <div class="resource-field">
+                  <label for="customAdjustment">Custom percent</label>
+                  <input id="customAdjustment" type="number" step="0.1" value="0">
+                </div>
+              </div>
+
+              <div id="animalSearchResults" class="animal-search-results" aria-label="Animal search results"></div>
+            </section>
+
+            <section class="tool-card">
+              <div class="kpi-grid four-column">
+                <div><span>Animal Cost</span><strong id="animalCostTotal">$0</strong></div>
+                <div><span>Adjusted Cost</span><strong id="adjustedCostTotal">$0</strong></div>
+                <div><span>Year 1 Revenue</span><strong id="revenueTotal">$0</strong></div>
+                <div><span>Budget Left</span><strong id="budgetLeft">$2,500,000</strong></div>
+              </div>
+
+              <div class="table-scroll">
+                <table class="lab-data-table">
+                  <thead>
+                    <tr>
+                      <th>Animal</th>
+                      <th>Qty</th>
+                      <th>Min Group</th>
+                      <th>Space</th>
+                      <th>Cost</th>
+                      <th>SWAGG Equation</th>
+                      <th>Revenue</th>
+                      <th><span class="sr-only">Remove</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="budgetRows"></tbody>
+                </table>
+              </div>
+              <p id="budgetStatus" class="status-message"></p>
+              <textarea id="budgetSummary" class="summary-textarea" readonly aria-label="Budget summary"></textarea>
+            </section>
+          </div>
+        </section>
+
+        <section class="tool-panel hidden" id="constraintPanel" role="tabpanel" aria-labelledby="constraintTab">
+          <div class="tool-panel-head">
+            <div>
+              <p class="eyebrow">Design model</p>
+              <h2>Enclosure Design Check</h2>
+            </div>
+            <button class="ghost-button" id="copyConstraintSummary" type="button">Copy Summary</button>
+          </div>
+
+          <div class="tool-grid two-column">
+            <section class="tool-card">
+              <div class="field-grid two-column">
+                <div class="resource-field">
+                  <label for="constraintAnimal">Animal</label>
+                  <select id="constraintAnimal"></select>
+                </div>
+                <div class="resource-field">
+                  <label for="constraintQuantity">Quantity</label>
+                  <input id="constraintQuantity" type="number" min="1" step="1" value="1">
+                </div>
+                <div class="resource-field">
+                  <label for="shapeType">Shape</label>
+                  <select id="shapeType">
+                    <option value="rectangle">Rectangle</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="circle">Circle</option>
+                  </select>
+                </div>
+                <div class="resource-field">
+                  <label for="scaleFactor">Scale</label>
+                  <select id="scaleFactor">
+                    <option value="1">1 drawing unit = 1 meter</option>
+                    <option value="2">1 drawing unit = 2 meters</option>
+                    <option value="5">1 drawing unit = 5 meters</option>
+                    <option value="10">1 drawing unit = 10 meters</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-grid three-column shape-fields" id="rectangleFields">
+                <div class="resource-field">
+                  <label for="rectLength">Length</label>
+                  <input id="rectLength" type="number" min="0" step="0.1" value="100">
+                </div>
+                <div class="resource-field">
+                  <label for="rectWidth">Width</label>
+                  <input id="rectWidth" type="number" min="0" step="0.1" value="80">
+                </div>
+              </div>
+
+              <div class="field-grid three-column shape-fields hidden" id="triangleFields">
+                <div class="resource-field">
+                  <label for="triBase">Base</label>
+                  <input id="triBase" type="number" min="0" step="0.1" value="140">
+                </div>
+                <div class="resource-field">
+                  <label for="triHeight">Height</label>
+                  <input id="triHeight" type="number" min="0" step="0.1" value="100">
+                </div>
+              </div>
+
+              <div class="field-grid three-column shape-fields hidden" id="circleFields">
+                <div class="resource-field">
+                  <label for="circleRadius">Radius</label>
+                  <input id="circleRadius" type="number" min="0" step="0.1" value="55">
+                </div>
+              </div>
+            </section>
+
+            <section class="tool-card result-card" aria-live="polite">
+              <h3>Design Result</h3>
+              <div class="kpi-grid">
+                <div><span>Required Area</span><strong id="requiredArea">0 sq m</strong></div>
+                <div><span>Your Area</span><strong id="studentArea">0 sq m</strong></div>
+                <div><span>Difference</span><strong id="areaDifference">0 sq m</strong></div>
+              </div>
+              <p id="constraintStatus" class="status-message"></p>
+              <div id="constraintScale" class="scale-grid"></div>
+              <textarea id="constraintSummary" class="summary-textarea" readonly aria-label="Design check summary"></textarea>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="zoo-tools.js"></script>
+  </body>
+</html>

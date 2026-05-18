@@ -313,6 +313,7 @@ def page_shell(title: str, active: str, body: str, prefix: str = "") -> str:
     nav = f"""
       <nav class="site-nav" aria-label="Student pages">
         <a class="{active == 'animals' and 'active' or ''}" href="{prefix}index.html">Animal Choices</a>
+        <a class="{active == 'tools' and 'active' or ''}" href="{prefix}tools.html">Zoo Lab</a>
         <a class="{active == 'geometry' and 'active' or ''}" href="{prefix}geometry.html">Geometry Examples</a>
         <a class="{active == 'sizes' and 'active' or ''}" href="{prefix}enclosure-examples.html">Enclosure Sizes</a>
       </nav>

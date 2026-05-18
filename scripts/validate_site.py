@@ -19,6 +19,8 @@ REQUIRED_FILES = [
     "index.html",
     "styles.css",
     "app.js",
+    "tools.html",
+    "zoo-tools.js",
     "geometry.html",
     "geometry-gallery.js",
     "enclosure-examples.html",
@@ -27,9 +29,11 @@ REQUIRED_FILES = [
     "data/animal_verification.json",
     "data/habitats.json",
     "data/geometry_examples.json",
+    "data/zoo_lab_presets.json",
     "docs/AUDIT.md",
     "docs/ANIMAL_DATA_AUDIT.md",
     "docs/GEOMETRY_GALLERY_AUDIT.md",
+    "docs/PROJECT_TOOL_AUDIT.md",
     ".github/workflows/pages.yml",
 ]
 
@@ -177,12 +181,15 @@ def validate_data() -> None:
     animals = load_json("data/animals.json")
     habitats = load_json("data/habitats.json")
     geometry = load_json("data/geometry_examples.json")
+    tool_presets = load_json("data/zoo_lab_presets.json")
     require(isinstance(animals, list), "animals.json must be a list")
     require(isinstance(habitats, list), "habitats.json must be a list")
     require(isinstance(geometry, dict), "geometry_examples.json must be an object")
+    require(isinstance(tool_presets, dict), "zoo_lab_presets.json must be an object")
     require(len(animals) == EXPECTED_ROWS, f"Expected {EXPECTED_ROWS} animal entries, found {len(animals)}")
     require(len(habitats) == EXPECTED_HABITATS, f"Expected {EXPECTED_HABITATS} habitats, found {len(habitats)}")
     validate_geometry_data(geometry)
+    validate_tool_presets(tool_presets)
 
     ids = [row["animal_id"] for row in animals]
     require(len(ids) == len(set(ids)), "Animal IDs must be unique")
@@ -275,6 +282,30 @@ def validate_geometry_data(geometry: dict) -> None:
         require(int(example["width"]) > 0 and int(example["height"]) > 0, f"{example['id']} has invalid dimensions")
 
 
+def validate_tool_presets(tool_presets: dict) -> None:
+    chance_models = tool_presets.get("chance_models")
+    sample_survey = tool_presets.get("sample_survey")
+    require(isinstance(chance_models, list) and len(chance_models) >= 4, "Zoo Lab needs at least 4 chance models")
+    seen_ids = set()
+    for model in chance_models:
+        require(model.get("id") and model["id"] not in seen_ids, "Chance model IDs must be present and unique")
+        seen_ids.add(model["id"])
+        require(model.get("name"), f"Chance model {model['id']} needs a name")
+        require(model.get("context"), f"Chance model {model['id']} needs context")
+        outcomes = model.get("outcomes")
+        require(isinstance(outcomes, list) and len(outcomes) >= 2, f"Chance model {model['id']} needs at least 2 outcomes")
+        for outcome in outcomes:
+            require(outcome.get("label"), f"Chance model {model['id']} has an unlabeled outcome")
+            require(isinstance(outcome.get("weight"), int) and outcome["weight"] > 0, f"Chance model {model['id']} outcome weights must be positive integers")
+
+    require(isinstance(sample_survey, dict), "sample_survey must be an object")
+    sample_rows = sample_survey.get("rows")
+    require(isinstance(sample_rows, list) and len(sample_rows) >= 3, "sample_survey needs at least 3 rows")
+    for row in sample_rows:
+        require(row.get("category"), "sample_survey rows need category labels")
+        require(isinstance(row.get("count"), int) and row["count"] >= 0, "sample_survey counts must be nonnegative integers")
+
+
 def validate_markup() -> None:
     html = (SITE_ROOT / "index.html").read_text(encoding="utf-8")
     for token in [
@@ -287,17 +318,31 @@ def validate_markup() -> None:
         "Classroom data note",
         "SWAGG",
         "data-sort-key",
+        "tools.html",
         "geometry.html",
         "enclosure-examples.html",
     ]:
         require(token in html, f"index.html is missing expected token: {token}")
 
+    tools_html = (SITE_ROOT / "tools.html").read_text(encoding="utf-8")
+    for token in [
+        "Zoo Lab",
+        "probabilityPanel",
+        "surveyPanel",
+        "budgetPanel",
+        "constraintPanel",
+        "zoo-tools.js",
+        "Copy Summary",
+        "$2,500,000",
+    ]:
+        require(token in tools_html, f"tools.html is missing expected token: {token}")
+
     geometry_html = (SITE_ROOT / "geometry.html").read_text(encoding="utf-8")
-    for token in ["geometryGallery", "geometrySearch", "Geometry Example Gallery", "geometry-gallery.js"]:
+    for token in ["geometryGallery", "geometrySearch", "Geometry Example Gallery", "geometry-gallery.js", "tools.html"]:
         require(token in geometry_html, f"geometry.html is missing expected token: {token}")
 
     sizes_html = (SITE_ROOT / "enclosure-examples.html").read_text(encoding="utf-8")
-    for token in ["sizeExamples", "sizeSearch", "Enclosure Size Examples", "enclosure-examples.js"]:
+    for token in ["sizeExamples", "sizeSearch", "Enclosure Size Examples", "enclosure-examples.js", "tools.html"]:
         require(token in sizes_html, f"enclosure-examples.html is missing expected token: {token}")
 
 
@@ -305,7 +350,7 @@ def main() -> None:
     validate_files()
     validate_data()
     validate_markup()
-    print("Validation passed: 1,711 animals, 50 habitats, 125 geometry examples, and clean public package.")
+    print("Validation passed: 1,711 animals, 50 habitats, 125 geometry examples, Zoo Lab tools, and clean public package.")
 
 
 if __name__ == "__main__":

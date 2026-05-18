@@ -1,0 +1,63 @@
+{
+  "chance_models": [
+    {
+      "id": "visitor_habitat_choice",
+      "name": "Visitor first-choice habitat",
+      "context": "A visitor chooses the habitat they want to visit first.",
+      "outcomes": [
+        { "label": "African Savanna", "weight": 24 },
+        { "label": "Tropical Rainforest", "weight": 21 },
+        { "label": "Aquarium", "weight": 18 },
+        { "label": "Bird Aviary", "weight": 14 },
+        { "label": "Nocturnal House", "weight": 12 },
+        { "label": "Reptile House", "weight": 11 }
+      ]
+    },
+    {
+      "id": "visitor_spending_choice",
+      "name": "Visitor extra purchase",
+      "context": "A visitor decides whether to make one extra purchase.",
+      "outcomes": [
+        { "label": "Snack or drink", "weight": 32 },
+        { "label": "Gift shop item", "weight": 23 },
+        { "label": "Conservation donation", "weight": 16 },
+        { "label": "Animal encounter ticket", "weight": 9 },
+        { "label": "No extra purchase", "weight": 20 }
+      ]
+    },
+    {
+      "id": "weather_attendance",
+      "name": "Weather day type",
+      "context": "A random school-year zoo day has one weather condition.",
+      "outcomes": [
+        { "label": "Sunny/high attendance", "weight": 40 },
+        { "label": "Cloudy/regular attendance", "weight": 33 },
+        { "label": "Rainy/low attendance", "weight": 20 },
+        { "label": "Heat advisory/limited attendance", "weight": 7 }
+      ]
+    },
+    {
+      "id": "education_stop_choice",
+      "name": "Education stop preference",
+      "context": "A student group chooses one learning stop for a field trip.",
+      "outcomes": [
+        { "label": "Veterinary clinic window", "weight": 18 },
+        { "label": "Conservation lab", "weight": 22 },
+        { "label": "Keeper talk", "weight": 25 },
+        { "label": "Habitat design station", "weight": 20 },
+        { "label": "Touch table or specimen cart", "weight": 15 }
+      ]
+    }
+  ],
+  "sample_survey": {
+    "sampling_method": "Class-created sample",
+    "limitation": "The sample is useful for a model, but it may not represent every zoo visitor.",
+    "rows": [
+      { "category": "Rainforest Dome", "count": 18 },
+      { "category": "Big Cat Trail", "count": 15 },
+      { "category": "Aquarium", "count": 12 },
+      { "category": "Savanna Range", "count": 10 },
+      { "category": "Reptile House", "count": 7 }
+    ]
+  }
+}

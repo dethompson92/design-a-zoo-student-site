@@ -9,6 +9,7 @@ Public student-facing animal and habitat database for the Design a Zoo project.
 - 50 habitat records with copied habitat images.
 - 125 organized geometry example images for enclosure and facility design ideas.
 - Enclosure size examples that turn minimum-group area into starter dimensions.
+- Zoo Lab tools for probability simulations, visitor survey displays, budget/revenue modeling, and enclosure design checks.
 - Research links for BioKIDS, Animal Diversity Web, GBIF, iNaturalist, habitat, and region lookups.
 - Phase 2 fields for approved animal images, credits, source URLs, providers, and licenses.
 - A validation script and audit report.
@@ -82,6 +83,17 @@ python3 scripts/validate_site.py
 ```
 
 See `docs/IMAGE_PIPELINE.md` for the full workflow and safety rules.
+
+## Zoo Lab Tool Audit
+
+Run this after adding new project packets, classwork bundles, or prompt packs:
+
+```bash
+python3 scripts/audit_project_tools.py
+python3 scripts/validate_site.py
+```
+
+The public summary is written to `docs/PROJECT_TOOL_AUDIT.md`. The full machine-readable inventory stays local-only under `.image-review/project-tool-audit/`.
 
 ## Classroom Data Note
 

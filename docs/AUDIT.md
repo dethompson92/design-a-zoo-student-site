@@ -1,6 +1,6 @@
 # Design a Zoo Public Student Website Audit
 
-Generated: 2026-05-18 03:36:09
+Generated: 2026-05-18 07:35:26
 
 ## Source of Truth
 
@@ -13,8 +13,8 @@ Generated: 2026-05-18 03:36:09
 - Habitats: 50
 - World/region labels: 220
 - Kept rows whose source `scientific_name` was `Not specified`: 191
-- Animal rows with approved images: 182
-- Unique approved animal image files: 182
+- Animal rows with approved images: 196
+- Unique approved animal image files: 196
 - Geometry example images: 125
 - Geometry example categories: 10
 
@@ -30,6 +30,7 @@ Generated: 2026-05-18 03:36:09
 - `data/animal_verification.json` records duplicate cleanup, taxonomy status, and research links.
 - `data/habitats.json` contains habitat summaries and habitat image paths.
 - `data/geometry_examples.json` contains the organized geometry example index.
+- `tools.html`, `zoo-tools.js`, and `data/zoo_lab_presets.json` provide student probability, survey, budget, revenue, and design-check tools.
 - `assets/habitats/` contains the 50 copied habitat PNG assets.
 - `assets/geometry/` contains optimized WebP copies of local worksheet example images.
 - `geometry.html`, `geometry/`, and `enclosure-examples.html` provide student design-reference pages.

@@ -406,6 +406,7 @@ Generated: {generated_at}
 - `data/animal_verification.json` records duplicate cleanup, taxonomy status, and research links.
 - `data/habitats.json` contains habitat summaries and habitat image paths.
 - `data/geometry_examples.json` contains the organized geometry example index.
+- `tools.html`, `zoo-tools.js`, and `data/zoo_lab_presets.json` provide student probability, survey, budget, revenue, and design-check tools.
 - `assets/habitats/` contains the 50 copied habitat PNG assets.
 - `assets/geometry/` contains optimized WebP copies of local worksheet example images.
 - `geometry.html`, `geometry/`, and `enclosure-examples.html` provide student design-reference pages.
