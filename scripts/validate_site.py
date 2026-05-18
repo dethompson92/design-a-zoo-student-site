@@ -5,11 +5,12 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 from pathlib import Path
 
 
 SITE_ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_ROWS = 1713
+EXPECTED_ROWS = 1711
 EXPECTED_HABITATS = 50
 
 REQUIRED_FILES = [
@@ -116,6 +117,11 @@ def require(condition: bool, message: str) -> None:
         raise SystemExit(message)
 
 
+def normalize_name(value: str) -> str:
+    ascii_value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z0-9]+", "", ascii_value.lower())
+
+
 def validate_files() -> None:
     for required in REQUIRED_FILES:
         require((SITE_ROOT / required).exists(), f"Missing required file: {required}")
@@ -137,10 +143,7 @@ def validate_data() -> None:
 
     ids = [row["animal_id"] for row in animals]
     require(len(ids) == len(set(ids)), "Animal IDs must be unique")
-    normalized_names = [
-        re.sub(r"[^a-z0-9]+", "", row["animal_name"].lower())
-        for row in animals
-    ]
+    normalized_names = [normalize_name(row["animal_name"]) for row in animals]
     require(len(normalized_names) == len(set(normalized_names)), "Animal names must be deduplicated")
 
     habitat_names = {row["name"] for row in habitats}
@@ -213,7 +216,7 @@ def main() -> None:
     validate_files()
     validate_data()
     validate_markup()
-    print("Validation passed: 1,713 deduplicated animals, 50 habitats, 50 habitat images, and clean public package.")
+    print("Validation passed: 1,711 deduplicated animals, 50 habitats, 50 habitat images, and clean public package.")
 
 
 if __name__ == "__main__":

@@ -1,25 +1,25 @@
 # Design a Zoo Public Student Website Audit
 
-Generated: 2026-05-18 02:04:51
+Generated: 2026-05-18 02:19:29
 
 ## Source of Truth
 
 - Primary source CSV: `Design_a_Zoo_Exhibition_Capstone_Project_Packet_Package/zoo_animals_student_database_final.csv`
 - Source CSV rows reviewed: 1,844
-- Public animal entries: 1,713
-- Unique animal names: 1,713
+- Public animal entries: 1,711
+- Unique animal names: 1,711
 - Duplicate animal names remaining: 0
-- Duplicate source rows removed from public JSON: 131
+- Duplicate source rows removed from public JSON: 133
 - Habitats: 50
 - World/region labels: 220
-- Kept rows whose source `scientific_name` was `Not specified`: 192
-- Animal rows with approved images: 0
-- Unique approved animal image files: 0
+- Kept rows whose source `scientific_name` was `Not specified`: 191
+- Animal rows with approved images: 15
+- Unique approved animal image files: 15
 
 ## Animal Verification
 
 - needs_review: 30
-- verified: 1,683
+- verified: 1,681
 
 ## Published Files
 
@@ -67,9 +67,9 @@ Generated: 2026-05-18 02:04:51
 - Forest habitat with irregular polygon and canopy/branch zone: 287
 - Water-and-land exhibit with rectangle plus semicircle/quarter-circle: 260
 - Indoor habitat pod with composite rectangles and viewing window: 239
-- Aquatic tank or lagoon composite with curved edge: 238
+- Aquatic tank or lagoon composite with curved edge: 237
 - Aviary or bird yard using regular polygon/apothem design: 214
 - Themed building with irregular room layout: 143
-- Rocky irregular polygon with triangular climbing zones: 128
+- Rocky irregular polygon with triangular climbing zones: 127
 - Large open paddock using trapezoid, pentagon, or composite polygon: 121
 - Cold-climate yard with semicircle pool and polygon ice zone: 83

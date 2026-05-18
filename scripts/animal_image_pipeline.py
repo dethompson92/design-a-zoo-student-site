@@ -502,18 +502,34 @@ def download_approved(limit: int | None = None) -> int:
         image_url = candidate.get("image_url")
         if not image_url:
             raise SystemExit(f"Approved candidate has no image_url: {record['animal_name']}")
+        target = ANIMAL_ASSET_DIR / f"{slugify(record['animal_name'])}.webp"
+        if target.exists():
+            record["image_path"] = str(target.relative_to(SITE_ROOT))
+            count += 1
+            write_manifest(manifest)
+            continue
         print(f"Downloading {record['animal_name']}")
-        image_bytes, content_type = request_bytes(image_url)
+        try:
+            image_bytes, content_type = request_bytes(image_url)
+        except urllib.error.HTTPError as error:
+            if error.code == 429:
+                record["notes"] = "Download paused by source rate limit; retry this approved image later."
+                write_manifest(manifest)
+                print(f"Skipped {record['animal_name']} after source rate limit.")
+                time.sleep(2)
+                continue
+            raise
         suffix = mimetypes.guess_extension(content_type.split(";")[0]) or ".img"
         CACHE_ROOT.mkdir(parents=True, exist_ok=True)
         with tempfile.NamedTemporaryFile(suffix=suffix, dir=CACHE_ROOT, delete=False) as temp:
             temp.write(image_bytes)
             temp_path = Path(temp.name)
-        target = ANIMAL_ASSET_DIR / f"{slugify(record['animal_name'])}.webp"
         convert_to_webp(temp_path, target)
         temp_path.unlink(missing_ok=True)
         record["image_path"] = str(target.relative_to(SITE_ROOT))
         count += 1
+        write_manifest(manifest)
+        time.sleep(0.7)
     write_manifest(manifest)
     return count
 

@@ -1,5 +1,12 @@
 const PAGE_SIZE = 48;
+const PROJECT_BUDGET = 2500000;
 const DEFAULT_SPOTLIGHT_IMAGE = "assets/habitats/habitat_06_african_savanna.png";
+const SPACE_REFERENCES = [
+  { label: "middle school classrooms", area: 70 },
+  { label: "basketball courts", area: 420 },
+  { label: "American football fields", area: 5350 },
+  { label: "small city blocks", area: 8000 },
+];
 
 const state = {
   animals: [],
@@ -36,6 +43,8 @@ const els = {
   habitatSpotlightImage: document.getElementById("habitatSpotlightImage"),
   habitatSpotlightTitle: document.getElementById("habitatSpotlightTitle"),
   habitatSpotlightMeta: document.getElementById("habitatSpotlightMeta"),
+  detailModal: document.getElementById("detailModal"),
+  modalContent: document.getElementById("modalContent"),
 };
 
 function formatNumber(value) {
@@ -73,6 +82,39 @@ function setOptions(select, values) {
 
 function getHabitat(name) {
   return state.habitats.find((habitat) => habitat.name === name);
+}
+
+function getAnimal(animalId) {
+  return state.animals.find((animal) => animal.animal_id === animalId);
+}
+
+function formatCompact(value) {
+  const number = Number(value);
+  if (number >= 10) {
+    return number.toLocaleString(undefined, { maximumFractionDigits: 1 });
+  }
+  return number.toLocaleString(undefined, { maximumFractionDigits: 2 });
+}
+
+function formatPercent(value) {
+  const number = Number(value);
+  if (number > 0 && number < 0.1) {
+    return "<0.1%";
+  }
+  return `${number.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
+}
+
+function budgetShare(animal) {
+  return formatPercent((Number(animal.cost_planning_usd) / PROJECT_BUDGET) * 100);
+}
+
+function animalImageData(animal) {
+  const habitat = getHabitat(animal.primary_habitat);
+  const imagePath = animal.animal_image_path || (habitat ? habitat.image_path : DEFAULT_SPOTLIGHT_IMAGE);
+  const alt = animal.animal_image_path
+    ? animal.image_alt
+    : `${animal.primary_habitat} habitat preview for ${animal.animal_name}`;
+  return { imagePath, alt };
 }
 
 function setupFilters() {
@@ -189,19 +231,14 @@ function renderSpotlight() {
 }
 
 function animalImageMarkup(animal) {
-  const habitat = getHabitat(animal.primary_habitat);
-  const imagePath = animal.animal_image_path || (habitat ? habitat.image_path : DEFAULT_SPOTLIGHT_IMAGE);
-  const alt = animal.animal_image_path
-    ? animal.image_alt
-    : `${animal.primary_habitat} habitat preview for ${animal.animal_name}`;
+  const { imagePath, alt } = animalImageData(animal);
   const status = animal.animal_image_path ? "" : '<span class="image-status">Image pending</span>';
   const image = `<img src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}" loading="lazy">`;
-  const linkedImage = animal.animal_image_path && animal.image_source
-    ? `<a class="animal-media-link" href="${escapeHtml(animal.image_source)}" target="_blank" rel="noopener noreferrer">${image}</a>`
-    : image;
   return `
     <div class="animal-media">
-      ${linkedImage}
+      <button class="animal-media-button" type="button" data-animal-action="details" data-animal-id="${escapeHtml(animal.animal_id)}">
+        ${image}
+      </button>
       ${status}
     </div>
   `;
@@ -233,13 +270,30 @@ function researchLinksMarkup(animal) {
   `;
 }
 
+function spaceScaleButton(animal, value, label = "View scale") {
+  return `
+    <button class="space-scale-button" type="button" data-animal-action="scale" data-animal-id="${escapeHtml(animal.animal_id)}">
+      ${formatNumber(value)} sq m
+      <span>${escapeHtml(label)}</span>
+    </button>
+  `;
+}
+
+function animalNameButton(animal) {
+  return `
+    <button class="animal-name-button" type="button" data-animal-action="details" data-animal-id="${escapeHtml(animal.animal_id)}">
+      ${escapeHtml(animal.animal_name)}
+    </button>
+  `;
+}
+
 function cardTemplate(animal) {
   return `
     <article class="animal-card">
       ${animalImageMarkup(animal)}
       <div class="animal-body">
         <div class="animal-title-row">
-          <h3>${escapeHtml(animal.animal_name)}</h3>
+          <h3>${animalNameButton(animal)}</h3>
           <span class="animal-id">${escapeHtml(animal.animal_id)}</span>
         </div>
         <p class="species">${escapeHtml(animal.scientific_name)}</p>
@@ -248,11 +302,11 @@ function cardTemplate(animal) {
           <span class="pill">${escapeHtml(animal.world_region)}</span>
         </div>
         <div class="quick-stats">
-          <div><span>Min group space</span><strong>${formatNumber(animal.space_planning_sq_units)}</strong></div>
+          <div><span>Min group space</span><strong>${spaceScaleButton(animal, animal.space_planning_sq_units)}</strong></div>
           <div><span>Min group</span><strong>${formatNumber(animal.minimum_family_group)}</strong></div>
-          <div><span>Min group cost</span><strong>${formatMoney(animal.cost_planning_usd)}</strong></div>
+          <div><span>Min group cost</span><strong>${formatMoney(animal.cost_planning_usd)}<span class="stat-subline">${budgetShare(animal)} of budget</span></strong></div>
         </div>
-        <p class="basis-note">Planning basis: ${escapeHtml(animal.space_planning_basis)}. First animal space: ${formatNumber(animal.space_first_animal_sq_units)}.</p>
+        <p class="basis-note">Planning basis: ${escapeHtml(animal.space_planning_basis)}. First animal space: ${formatNumber(animal.space_first_animal_sq_units)} sq m.</p>
         <p class="design-hint">${escapeHtml(animal.suggested_enclosure_design_category)}</p>
         <p class="equation">${escapeHtml(animal.swagg_revenue_equation)}</p>
         ${researchLinksMarkup(animal)}
@@ -263,29 +317,27 @@ function cardTemplate(animal) {
 }
 
 function tableRowTemplate(animal) {
-  const habitat = getHabitat(animal.primary_habitat);
-  const imagePath = animal.animal_image_path || (habitat ? habitat.image_path : DEFAULT_SPOTLIGHT_IMAGE);
-  const alt = animal.animal_image_path
-    ? animal.image_alt
-    : `${animal.primary_habitat} habitat preview for ${animal.animal_name}`;
+  const { imagePath, alt } = animalImageData(animal);
   const creditHref = animal.animal_image_path && animal.image_source ? animal.image_source : "";
   return `
     <tr>
       <td>
-        <img class="table-photo" src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}" loading="lazy">
+        <button class="table-photo-button" type="button" data-animal-action="details" data-animal-id="${escapeHtml(animal.animal_id)}">
+          <img class="table-photo" src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}" loading="lazy">
+        </button>
         ${
           creditHref
             ? `<a class="table-credit" href="${escapeHtml(creditHref)}" target="_blank" rel="noopener noreferrer">Credit</a>`
             : '<span class="table-credit">Pending</span>'
         }
       </td>
-      <td><strong>${escapeHtml(animal.animal_name)}</strong><br><span class="species">${escapeHtml(animal.scientific_name)}</span></td>
+      <td><strong>${animalNameButton(animal)}</strong><br><span class="species">${escapeHtml(animal.scientific_name)}</span></td>
       <td>${escapeHtml(animal.primary_habitat)}</td>
       <td>${escapeHtml(animal.world_region)}<br><a class="table-credit" href="${escapeHtml(animal.region_research_url)}" target="_blank" rel="noopener noreferrer">Region info</a></td>
-      <td>${formatNumber(animal.space_planning_sq_units)}<br><span class="table-note">${escapeHtml(animal.space_planning_basis)}</span></td>
-      <td>${formatNumber(animal.space_first_animal_sq_units)}</td>
+      <td>${spaceScaleButton(animal, animal.space_planning_sq_units)}<br><span class="table-note">${escapeHtml(animal.space_planning_basis)}</span></td>
+      <td>${formatNumber(animal.space_first_animal_sq_units)} sq m</td>
       <td>${formatNumber(animal.minimum_family_group)}</td>
-      <td>${formatMoney(animal.cost_planning_usd)}<br><span class="table-note">${escapeHtml(animal.cost_planning_basis)}</span></td>
+      <td>${formatMoney(animal.cost_planning_usd)}<br><span class="table-note">${budgetShare(animal)} of budget</span><br><span class="table-note">${escapeHtml(animal.cost_planning_basis)}</span></td>
       <td>${formatMoney(animal.cost_per_animal_usd)}</td>
       <td><code>${escapeHtml(animal.swagg_revenue_equation)}</code></td>
       <td>${escapeHtml(animal.suggested_enclosure_design_category)}</td>
@@ -295,6 +347,101 @@ function tableRowTemplate(animal) {
       </td>
     </tr>
   `;
+}
+
+function scaleComparisons(area) {
+  const sideMeters = Math.sqrt(area);
+  const sideFeet = sideMeters * 3.28084;
+  const referenceCards = SPACE_REFERENCES.map((reference) => {
+    const count = area / reference.area;
+    return `
+      <div class="scale-card">
+        <strong>${formatCompact(count)}x</strong>
+        <span>${escapeHtml(reference.label)}</span>
+      </div>
+    `;
+  }).join("");
+  return `
+    <div class="scale-summary">
+      <div>
+        <span>Total area</span>
+        <strong>${formatNumber(area)} sq m</strong>
+      </div>
+      <div>
+        <span>Same area as a square</span>
+        <strong>${formatCompact(sideMeters)} m x ${formatCompact(sideMeters)} m</strong>
+        <small>About ${formatCompact(sideFeet)} ft x ${formatCompact(sideFeet)} ft</small>
+      </div>
+    </div>
+    <div class="scale-grid">${referenceCards}</div>
+  `;
+}
+
+function openScaleModal(animal) {
+  els.modalContent.innerHTML = `
+    <div class="modal-header-copy">
+      <p class="eyebrow">Space scale</p>
+      <h2 id="modalTitle">${escapeHtml(animal.animal_name)} minimum-group space</h2>
+      <p>These are quick visual comparisons for the classroom planning number. They are approximate, not real animal-care standards.</p>
+    </div>
+    ${scaleComparisons(Number(animal.space_planning_sq_units))}
+    <div class="modal-stat-row">
+      <div><span>Planning basis</span><strong>${escapeHtml(animal.space_planning_basis)}</strong></div>
+      <div><span>First animal</span><strong>${formatNumber(animal.space_first_animal_sq_units)} sq m</strong></div>
+      <div><span>Each additional</span><strong>${formatNumber(animal.space_each_additional_animal_sq_units)} sq m</strong></div>
+    </div>
+  `;
+  openModal();
+}
+
+function openAnimalModal(animal) {
+  const { imagePath, alt } = animalImageData(animal);
+  const imageStatusText = animal.animal_image_path
+    ? "Approved animal photo"
+    : "Animal photo pending; habitat placeholder shown";
+  const sourceLink = animal.animal_image_path && animal.image_source
+    ? ` · <a href="${escapeHtml(animal.image_source)}" target="_blank" rel="noopener noreferrer">Image source</a>`
+    : "";
+  els.modalContent.innerHTML = `
+    <div class="animal-detail-layout">
+      <div>
+        <img class="modal-animal-image" src="${escapeHtml(imagePath)}" alt="${escapeHtml(alt)}">
+        <p class="photo-credit">${escapeHtml(imageStatusText)} ${sourceLink}</p>
+        ${imageCreditMarkup(animal)}
+      </div>
+      <div class="modal-header-copy">
+        <p class="eyebrow">Animal details</p>
+        <h2 id="modalTitle">${escapeHtml(animal.animal_name)}</h2>
+        <p class="species">${escapeHtml(animal.scientific_name)}</p>
+        <div class="pill-row">
+          <span class="pill">${escapeHtml(animal.primary_habitat)}</span>
+          <span class="pill">${escapeHtml(animal.world_region)}</span>
+        </div>
+        ${researchLinksMarkup(animal)}
+        <div class="modal-stat-row">
+          <div><span>Minimum group space</span><strong>${formatNumber(animal.space_planning_sq_units)} sq m</strong></div>
+          <div><span>Minimum group cost</span><strong>${formatMoney(animal.cost_planning_usd)}<span class="stat-subline">${budgetShare(animal)} of budget</span></strong></div>
+          <div><span>Minimum group</span><strong>${formatNumber(animal.minimum_family_group)}</strong></div>
+        </div>
+        <button class="ghost-button" type="button" data-animal-action="scale" data-animal-id="${escapeHtml(animal.animal_id)}">Show Space Scale</button>
+        <p class="design-hint">${escapeHtml(animal.suggested_enclosure_design_category)}</p>
+        <p class="equation">${escapeHtml(animal.swagg_revenue_equation)}</p>
+      </div>
+    </div>
+  `;
+  openModal();
+}
+
+function openModal() {
+  els.detailModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+  const closeButton = els.detailModal.querySelector(".modal-close");
+  if (closeButton) closeButton.focus();
+}
+
+function closeModal() {
+  els.detailModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
 }
 
 function renderResults() {
@@ -367,6 +514,31 @@ function bindEvents() {
   els.loadMoreButton.addEventListener("click", () => {
     state.visibleCount += PAGE_SIZE;
     renderResults();
+  });
+
+  document.addEventListener("click", (event) => {
+    const closeTarget = event.target.closest("[data-modal-close]");
+    if (closeTarget) {
+      closeModal();
+      return;
+    }
+
+    const actionTarget = event.target.closest("[data-animal-action]");
+    if (!actionTarget) return;
+    const animal = getAnimal(actionTarget.dataset.animalId);
+    if (!animal) return;
+    if (actionTarget.dataset.animalAction === "scale") {
+      openScaleModal(animal);
+    }
+    if (actionTarget.dataset.animalAction === "details") {
+      openAnimalModal(animal);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !els.detailModal.classList.contains("hidden")) {
+      closeModal();
+    }
   });
 }
 

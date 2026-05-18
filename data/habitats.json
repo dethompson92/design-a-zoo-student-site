@@ -403,20 +403,20 @@
   {
     "name": "Polar Marine",
     "image_path": "assets/habitats/habitat_22_polar_marine.png",
-    "animal_count": 15,
+    "animal_count": 14,
     "region_count": 4,
     "design_categories": [
       "Aquatic tank or lagoon composite with curved edge"
     ],
     "cost_min": 15000,
-    "cost_max": 480000,
+    "cost_max": 420000,
     "space_min": 30000,
     "space_max": 202000
   },
   {
     "name": "Páramo",
     "image_path": "assets/habitats/habitat_50_paramo.png",
-    "animal_count": 22,
+    "animal_count": 21,
     "region_count": 1,
     "design_categories": [
       "Aviary or bird yard using regular polygon/apothem design",

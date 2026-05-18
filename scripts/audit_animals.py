@@ -7,6 +7,7 @@ import csv
 import json
 import ssl
 import time
+import unicodedata
 import urllib.parse
 import urllib.request
 from collections import Counter, defaultdict
@@ -57,7 +58,8 @@ def request_json(url: str, *, timeout: int = 12) -> dict:
 
 
 def normalize_key(value: str) -> str:
-    return "".join(char.lower() for char in value if char.isalnum())
+    ascii_value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    return "".join(char.lower() for char in ascii_value if char.isalnum())
 
 
 def research_url(base: str, query: str, param: str = "q") -> str:

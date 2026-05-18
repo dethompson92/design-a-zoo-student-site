@@ -1,26 +1,26 @@
 # Animal Data Audit
 
-Generated: 2026-05-18 01:56:25
+Generated: 2026-05-18 02:11:01
 
 ## Summary
 
 - Source animal rows reviewed: 1,844
-- Public rows after duplicate-name cleanup: 1,713
-- Duplicate rows removed from public JSON: 131
-- Duplicate-name groups reviewed: 127
-- Kept rows still missing source scientific names: 192
+- Public rows after duplicate-name cleanup: 1,711
+- Duplicate rows removed from public JSON: 133
+- Duplicate-name groups reviewed: 129
+- Kept rows still missing source scientific names: 191
 - Confirmed fictional/made-up animals removed: 0
 
 ## Verification Status
 
 - needs_review: 30
-- verified: 1,683
+- verified: 1,681
 
 ## Verification Methods
 
 - gbif_common_name_search: 30
-- gbif_scientific_name: 1,467
-- inaturalist_common_name: 189
+- gbif_scientific_name: 1,466
+- inaturalist_common_name: 188
 - inaturalist_scientific_name: 24
 - manual_review: 2
 - manual_verified_name_fix: 1

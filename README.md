@@ -5,7 +5,7 @@ Public student-facing animal and habitat database for the Design a Zoo project.
 ## What Is Published
 
 - A searchable animal-choice website for students.
-- 1,713 deduplicated public animal entries built from 1,844 reviewed source rows.
+- 1,711 deduplicated public animal entries built from 1,844 reviewed source rows.
 - 50 habitat records with copied habitat images.
 - Research links for BioKIDS, Animal Diversity Web, GBIF, iNaturalist, habitat, and region lookups.
 - Phase 2 fields for approved animal images, credits, source URLs, providers, and licenses.
