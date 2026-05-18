@@ -18,6 +18,14 @@ Initialize or refresh the manifest:
 python3 scripts/animal_image_pipeline.py init-manifest
 ```
 
+Audit local folders before considering locally generated or exported images:
+
+```bash
+python3 scripts/audit_local_sources.py
+```
+
+This writes a tracked summary to `docs/LOCAL_SOURCE_AUDIT.md` and keeps detailed inventories/contact sheets in `.image-review/local-source-audit/`.
+
 Find the first 25 candidates:
 
 ```bash
