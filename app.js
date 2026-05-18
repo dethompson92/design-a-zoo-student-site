@@ -8,6 +8,7 @@ const state = {
   visibleCount: PAGE_SIZE,
   view: "cards",
   sortKey: "animal_name",
+  sortDirection: "asc",
 };
 
 const els = {
@@ -43,6 +44,10 @@ function formatNumber(value) {
 
 function formatMoney(value) {
   return `$${Number(value).toLocaleString()}`;
+}
+
+function imageStatus(animal) {
+  return animal.animal_image_path ? "approved" : "pending";
 }
 
 function escapeHtml(value) {
@@ -93,8 +98,11 @@ function applyFilters() {
       animal.scientific_name,
       animal.primary_habitat,
       animal.world_region,
+      animal.verification_status,
+      animal.verified_scientific_name,
       animal.suggested_enclosure_design_category,
       animal.suggested_physical_model_feature,
+      animal.swagg_revenue_equation,
     ]
       .join(" ")
       .toLowerCase();
@@ -104,8 +112,8 @@ function applyFilters() {
       (!habitat || animal.primary_habitat === habitat) &&
       (!region || animal.world_region === region) &&
       (!design || animal.suggested_enclosure_design_category === design) &&
-      Number(animal.cost_per_animal_usd) <= maxCost &&
-      Number(animal.space_first_animal_sq_units) <= maxSpace
+      Number(animal.cost_planning_usd) <= maxCost &&
+      Number(animal.space_planning_sq_units) <= maxSpace
     );
   });
 
@@ -116,13 +124,40 @@ function applyFilters() {
 
 function sortAnimals() {
   const key = state.sortKey;
+  const direction = state.sortDirection === "desc" ? -1 : 1;
   state.filtered.sort((a, b) => {
-    const av = a[key];
-    const bv = b[key];
+    const av = key === "image_status" ? imageStatus(a) : a[key];
+    const bv = key === "image_status" ? imageStatus(b) : b[key];
     if (typeof av === "number" && typeof bv === "number") {
-      return av - bv;
+      return (av - bv) * direction;
     }
-    return String(av).localeCompare(String(bv));
+    return String(av).localeCompare(String(bv)) * direction;
+  });
+}
+
+function setSort(key) {
+  if (state.sortKey === key) {
+    state.sortDirection = state.sortDirection === "asc" ? "desc" : "asc";
+  } else {
+    state.sortKey = key;
+    state.sortDirection = "asc";
+  }
+  if ([...els.sortSelect.options].some((option) => option.value === key)) {
+    els.sortSelect.value = key;
+  }
+  sortAnimals();
+  render();
+}
+
+function updateSortIndicators() {
+  document.querySelectorAll("th[aria-sort]").forEach((header) => {
+    const button = header.querySelector("[data-sort-key]");
+    const active = button && button.dataset.sortKey === state.sortKey;
+    header.setAttribute("aria-sort", active ? (state.sortDirection === "asc" ? "ascending" : "descending") : "none");
+    if (button) {
+      button.classList.toggle("active-sort", Boolean(active));
+      button.dataset.direction = active ? state.sortDirection : "";
+    }
   });
 }
 
@@ -150,7 +185,7 @@ function renderSpotlight() {
   els.habitatSpotlightTitle.textContent = habitat.name;
   els.habitatSpotlightMeta.textContent =
     `${formatNumber(habitat.animal_count)} animal entries, ${formatNumber(habitat.region_count)} regions, ` +
-    `${formatMoney(habitat.cost_min)} to ${formatMoney(habitat.cost_max)} per animal.`;
+    `${formatMoney(habitat.cost_min)} to ${formatMoney(habitat.cost_max)} per minimum group.`;
 }
 
 function animalImageMarkup(animal) {
@@ -186,6 +221,18 @@ function imageCreditMarkup(animal) {
   `;
 }
 
+function researchLinksMarkup(animal) {
+  const statusLabel = animal.verification_status === "verified" ? "Verified" : "Review";
+  return `
+    <div class="research-links" aria-label="Research links for ${escapeHtml(animal.animal_name)}">
+      <span class="verify-badge ${escapeHtml(animal.verification_status)}">${escapeHtml(statusLabel)}</span>
+      <a href="${escapeHtml(animal.student_info_url)}" target="_blank" rel="noopener noreferrer">Student info</a>
+      <a href="${escapeHtml(animal.gbif_url)}" target="_blank" rel="noopener noreferrer">Science</a>
+      <a href="${escapeHtml(animal.inaturalist_url)}" target="_blank" rel="noopener noreferrer">Locations</a>
+    </div>
+  `;
+}
+
 function cardTemplate(animal) {
   return `
     <article class="animal-card">
@@ -201,12 +248,14 @@ function cardTemplate(animal) {
           <span class="pill">${escapeHtml(animal.world_region)}</span>
         </div>
         <div class="quick-stats">
-          <div><span>Space</span><strong>${formatNumber(animal.space_first_animal_sq_units)}</strong></div>
-          <div><span>Group</span><strong>${formatNumber(animal.minimum_family_group)}</strong></div>
-          <div><span>Cost</span><strong>${formatMoney(animal.cost_per_animal_usd)}</strong></div>
+          <div><span>Min group space</span><strong>${formatNumber(animal.space_planning_sq_units)}</strong></div>
+          <div><span>Min group</span><strong>${formatNumber(animal.minimum_family_group)}</strong></div>
+          <div><span>Min group cost</span><strong>${formatMoney(animal.cost_planning_usd)}</strong></div>
         </div>
+        <p class="basis-note">Planning basis: ${escapeHtml(animal.space_planning_basis)}. First animal space: ${formatNumber(animal.space_first_animal_sq_units)}.</p>
         <p class="design-hint">${escapeHtml(animal.suggested_enclosure_design_category)}</p>
         <p class="equation">${escapeHtml(animal.swagg_revenue_equation)}</p>
+        ${researchLinksMarkup(animal)}
         ${imageCreditMarkup(animal)}
       </div>
     </article>
@@ -232,11 +281,18 @@ function tableRowTemplate(animal) {
       </td>
       <td><strong>${escapeHtml(animal.animal_name)}</strong><br><span class="species">${escapeHtml(animal.scientific_name)}</span></td>
       <td>${escapeHtml(animal.primary_habitat)}</td>
-      <td>${escapeHtml(animal.world_region)}</td>
+      <td>${escapeHtml(animal.world_region)}<br><a class="table-credit" href="${escapeHtml(animal.region_research_url)}" target="_blank" rel="noopener noreferrer">Region info</a></td>
+      <td>${formatNumber(animal.space_planning_sq_units)}<br><span class="table-note">${escapeHtml(animal.space_planning_basis)}</span></td>
       <td>${formatNumber(animal.space_first_animal_sq_units)}</td>
       <td>${formatNumber(animal.minimum_family_group)}</td>
+      <td>${formatMoney(animal.cost_planning_usd)}<br><span class="table-note">${escapeHtml(animal.cost_planning_basis)}</span></td>
       <td>${formatMoney(animal.cost_per_animal_usd)}</td>
+      <td><code>${escapeHtml(animal.swagg_revenue_equation)}</code></td>
       <td>${escapeHtml(animal.suggested_enclosure_design_category)}</td>
+      <td>
+        ${researchLinksMarkup(animal)}
+        <a class="table-credit" href="${escapeHtml(animal.habitat_research_url)}" target="_blank" rel="noopener noreferrer">Habitat info</a>
+      </td>
     </tr>
   `;
 }
@@ -266,6 +322,7 @@ function render() {
   renderSpotlight();
   renderResults();
   renderView();
+  updateSortIndicators();
 }
 
 function resetFilters() {
@@ -286,8 +343,15 @@ function bindEvents() {
   els.resetFilters.addEventListener("click", resetFilters);
   els.sortSelect.addEventListener("change", () => {
     state.sortKey = els.sortSelect.value;
+    state.sortDirection = "asc";
     sortAnimals();
     render();
+  });
+
+  document.querySelectorAll("[data-sort-key]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setSort(button.dataset.sortKey);
+    });
   });
 
   els.cardViewButton.addEventListener("click", () => {

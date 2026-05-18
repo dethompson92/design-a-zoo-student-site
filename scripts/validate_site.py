@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 SITE_ROOT = Path(__file__).resolve().parents[1]
-EXPECTED_ROWS = 1844
+EXPECTED_ROWS = 1713
 EXPECTED_HABITATS = 50
 
 REQUIRED_FILES = [
@@ -17,8 +17,10 @@ REQUIRED_FILES = [
     "styles.css",
     "app.js",
     "data/animals.json",
+    "data/animal_verification.json",
     "data/habitats.json",
     "docs/AUDIT.md",
+    "docs/ANIMAL_DATA_AUDIT.md",
     ".github/workflows/pages.yml",
 ]
 
@@ -26,19 +28,33 @@ REQUIRED_ANIMAL_KEYS = {
     "animal_id",
     "animal_name",
     "scientific_name",
+    "source_scientific_name",
+    "verified_scientific_name",
+    "verification_status",
+    "verification_method",
     "primary_habitat",
     "world_region",
     "space_first_animal_sq_units",
     "space_each_additional_animal_sq_units",
     "minimum_family_group",
     "minimum_group_space_sq_units",
+    "space_planning_sq_units",
+    "space_planning_basis",
     "cost_per_animal_usd",
     "minimum_group_cost_usd",
+    "cost_planning_usd",
+    "cost_planning_basis",
     "swagg_revenue_equation",
     "suggested_enclosure_design_category",
     "suggested_physical_model_feature",
     "curriculum_connections",
     "data_note",
+    "student_info_url",
+    "animal_diversity_web_url",
+    "gbif_url",
+    "inaturalist_url",
+    "habitat_research_url",
+    "region_research_url",
     "animal_image_path",
     "image_alt",
     "image_credit",
@@ -53,8 +69,10 @@ NUMERIC_KEYS = {
     "space_each_additional_animal_sq_units",
     "minimum_family_group",
     "minimum_group_space_sq_units",
+    "space_planning_sq_units",
     "cost_per_animal_usd",
     "minimum_group_cost_usd",
+    "cost_planning_usd",
 }
 
 CONTAMINATION_PATTERN = re.compile(
@@ -119,6 +137,11 @@ def validate_data() -> None:
 
     ids = [row["animal_id"] for row in animals]
     require(len(ids) == len(set(ids)), "Animal IDs must be unique")
+    normalized_names = [
+        re.sub(r"[^a-z0-9]+", "", row["animal_name"].lower())
+        for row in animals
+    ]
+    require(len(normalized_names) == len(set(normalized_names)), "Animal names must be deduplicated")
 
     habitat_names = {row["name"] for row in habitats}
     animal_habitats = {row["primary_habitat"] for row in animals}
@@ -132,6 +155,24 @@ def validate_data() -> None:
             require(isinstance(row[key], int), f"{row['animal_id']} {key} must be an integer")
             require(row[key] >= 0, f"{row['animal_id']} {key} must be nonnegative")
         require(row["minimum_family_group"] >= 1, f"{row['animal_id']} minimum_family_group must be at least 1")
+        require(
+            row["space_planning_sq_units"] == row["minimum_group_space_sq_units"],
+            f"{row['animal_id']} planning space must equal minimum group space",
+        )
+        require(
+            row["cost_planning_usd"] == row["minimum_group_cost_usd"],
+            f"{row['animal_id']} planning cost must equal minimum group cost",
+        )
+        require(row["verification_status"] in {"verified", "needs_review"}, f"{row['animal_id']} has invalid verification_status")
+        for key in [
+            "student_info_url",
+            "animal_diversity_web_url",
+            "gbif_url",
+            "inaturalist_url",
+            "habitat_research_url",
+            "region_research_url",
+        ]:
+            require(str(row[key]).startswith("https://"), f"{row['animal_id']} {key} must be an https URL")
         if row["animal_image_path"]:
             require((SITE_ROOT / row["animal_image_path"]).exists(), f"Missing animal image: {row['animal_image_path']}")
             require(row["image_credit"], f"{row['animal_id']} image_credit is required for approved images")
@@ -162,6 +203,8 @@ def validate_markup() -> None:
         "cardResults",
         "animalTableBody",
         "Classroom data note",
+        "SWAGG",
+        "data-sort-key",
     ]:
         require(token in html, f"index.html is missing expected token: {token}")
 
@@ -170,7 +213,7 @@ def main() -> None:
     validate_files()
     validate_data()
     validate_markup()
-    print("Validation passed: 1,844 animals, 50 habitats, 50 habitat images, and clean public package.")
+    print("Validation passed: 1,713 deduplicated animals, 50 habitats, 50 habitat images, and clean public package.")
 
 
 if __name__ == "__main__":

@@ -1,23 +1,31 @@
 # Design a Zoo Public Student Website Audit
 
-Generated: 2026-05-18 01:20:52
+Generated: 2026-05-18 02:04:51
 
 ## Source of Truth
 
 - Primary source CSV: `Design_a_Zoo_Exhibition_Capstone_Project_Packet_Package/zoo_animals_student_database_final.csv`
-- Public animal entries: 1,844
-- Unique animal names: 1,717
-- Duplicate animal names kept as separate habitat choices: 124
+- Source CSV rows reviewed: 1,844
+- Public animal entries: 1,713
+- Unique animal names: 1,713
+- Duplicate animal names remaining: 0
+- Duplicate source rows removed from public JSON: 131
 - Habitats: 50
-- World/region labels: 223
-- Rows with `scientific_name = "Not specified"`: 296
+- World/region labels: 220
+- Kept rows whose source `scientific_name` was `Not specified`: 192
 - Animal rows with approved images: 0
 - Unique approved animal image files: 0
+
+## Animal Verification
+
+- needs_review: 30
+- verified: 1,683
 
 ## Published Files
 
 - `index.html`, `styles.css`, and `app.js` provide the student-facing database.
 - `data/animals.json` contains the public animal-choice data plus Phase 2 image fields.
+- `data/animal_verification.json` records duplicate cleanup, taxonomy status, and research links.
 - `data/habitats.json` contains habitat summaries and habitat image paths.
 - `assets/habitats/` contains the 50 copied habitat PNG assets.
 - `scripts/validate_site.py` verifies the public site package before deployment.
@@ -31,7 +39,8 @@ Generated: 2026-05-18 01:20:52
 
 ## Data Quality Notes
 
-- Duplicate animal names are valid because some animals appear as choices in multiple habitats.
+- Duplicate animal-name rows were collapsed to one public row per normalized animal name.
+- Space and cost planning columns use the minimum family/group size. First-animal and each-additional-animal values remain available for comparison.
 - Classroom values are simplified for math modeling and are not real animal-care standards.
 - Individual animal images are only published after batch approval. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
 - Approved image records also include `image_license_name`, `image_license_url`, and `image_provider`.
@@ -55,12 +64,12 @@ Generated: 2026-05-18 01:20:52
 
 ## Enclosure Design Categories
 
-- Forest habitat with irregular polygon and canopy/branch zone: 305
-- Water-and-land exhibit with rectangle plus semicircle/quarter-circle: 296
-- Aquatic tank or lagoon composite with curved edge: 251
-- Indoor habitat pod with composite rectangles and viewing window: 243
-- Aviary or bird yard using regular polygon/apothem design: 226
-- Themed building with irregular room layout: 169
-- Rocky irregular polygon with triangular climbing zones: 140
+- Forest habitat with irregular polygon and canopy/branch zone: 287
+- Water-and-land exhibit with rectangle plus semicircle/quarter-circle: 260
+- Indoor habitat pod with composite rectangles and viewing window: 239
+- Aquatic tank or lagoon composite with curved edge: 238
+- Aviary or bird yard using regular polygon/apothem design: 214
+- Themed building with irregular room layout: 143
+- Rocky irregular polygon with triangular climbing zones: 128
 - Large open paddock using trapezoid, pentagon, or composite polygon: 121
-- Cold-climate yard with semicircle pool and polygon ice zone: 93
+- Cold-climate yard with semicircle pool and polygon ice zone: 83

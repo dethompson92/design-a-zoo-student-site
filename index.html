@@ -28,7 +28,7 @@
 
       <section class="notice" aria-label="Classroom data note">
         <strong>Classroom data note:</strong>
-        Values are simplified for math modeling and student design decisions. They are not real animal-care standards.
+        Values are simplified for math modeling and student design decisions. Planning space and cost are shown for the minimum group size, not real animal-care standards.
       </section>
 
       <section class="metrics" aria-label="Database summary">
@@ -75,10 +75,10 @@
             <option value="">All designs</option>
           </select>
 
-          <label for="maxCost">Max cost per animal</label>
+          <label for="maxCost">Max minimum-group cost</label>
           <input id="maxCost" type="number" min="0" step="100" placeholder="No limit">
 
-          <label for="maxSpace">Max first-animal space</label>
+          <label for="maxSpace">Max minimum-group space</label>
           <input id="maxSpace" type="number" min="0" step="100" placeholder="No limit">
         </aside>
 
@@ -101,10 +101,17 @@
               <label for="sortSelect">Sort</label>
               <select id="sortSelect">
                 <option value="animal_name">Animal name</option>
+                <option value="image_status">Photo status</option>
                 <option value="primary_habitat">Habitat</option>
-                <option value="cost_per_animal_usd">Cost</option>
-                <option value="space_first_animal_sq_units">Space</option>
+                <option value="world_region">Region</option>
+                <option value="cost_planning_usd">Minimum-group cost</option>
+                <option value="cost_per_animal_usd">Cost per animal</option>
+                <option value="space_planning_sq_units">Minimum-group space</option>
+                <option value="space_first_animal_sq_units">First-animal space</option>
                 <option value="minimum_family_group">Group size</option>
+                <option value="swagg_revenue_equation">SWAGG equation</option>
+                <option value="suggested_enclosure_design_category">Design hint</option>
+                <option value="verification_status">Verification status</option>
               </select>
               <div class="view-toggle" aria-label="View mode">
                 <button id="cardViewButton" class="active" type="button">Cards</button>
@@ -121,14 +128,18 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Photo</th>
-                    <th>Animal</th>
-                    <th>Habitat</th>
-                    <th>Region</th>
-                    <th>Space</th>
-                    <th>Group</th>
-                    <th>Cost</th>
-                    <th>Design Hint</th>
+                    <th aria-sort="none"><button type="button" data-sort-key="image_status">Photo</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="animal_name">Animal</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="primary_habitat">Habitat</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="world_region">Region</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="space_planning_sq_units">Min Group Space</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="space_first_animal_sq_units">First Animal Space</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="minimum_family_group">Min Group</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="cost_planning_usd">Min Group Cost</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="cost_per_animal_usd">Cost / Animal</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="swagg_revenue_equation">SWAGG Equation</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="suggested_enclosure_design_category">Design Hint</button></th>
+                    <th aria-sort="none"><button type="button" data-sort-key="verification_status">Research</button></th>
                   </tr>
                 </thead>
                 <tbody id="animalTableBody"></tbody>
