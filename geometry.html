@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Geometry Example Gallery</title>
+    <meta name="description" content="Student-facing Design a Zoo geometry examples.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell student-page">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Student resources</p>
+          <h1>Geometry Example Gallery</h1>
+        </div>
+      </header>
+
+      <nav class="site-nav" aria-label="Student pages">
+        <a class="" href="index.html">Animal Choices</a>
+        <a class="active" href="geometry.html">Geometry Examples</a>
+        <a class="" href="enclosure-examples.html">Enclosure Sizes</a>
+      </nav>
+
+
+      <section class="page-intro">
+        <p>
+          Browse 125 project-design images grouped by enclosure theme, animal type, habitat idea, and geometry shape.
+          These are classroom planning examples for drawing zoo layouts, not real construction plans.
+        </p>
+      </section>
+
+      <section class="category-list" aria-label="Geometry example categories">
+
+        <a class="category-link-card" href="geometry/savanna-hoofstock-yards.html">
+          <strong>Savanna & Hoofstock Yards</strong>
+          <span>15 examples</span>
+          <p>Paddocks, ranges, and feeding areas for grazing or large hoofed animals.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/big-cats-bears-predators.html">
+          <strong>Big Cats, Bears & Predators</strong>
+          <span>8 examples</span>
+          <p>Examples for carnivore runs, predator habitats, and secure retreat areas.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/primates-small-mammals.html">
+          <strong>Primates & Small Mammals</strong>
+          <span>9 examples</span>
+          <p>Yards, pavilions, islands, crossings, and villages for social mammals.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/birds-aviaries.html">
+          <strong>Birds & Aviaries</strong>
+          <span>12 examples</span>
+          <p>Aviaries, raptor yards, bird sanctuaries, and flight-focused layouts.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/aquatic-wetland-exhibits.html">
+          <strong>Aquatic & Wetland Exhibits</strong>
+          <span>12 examples</span>
+          <p>Pools, lagoons, coasts, marshes, marine spaces, and water-focused exhibits.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/reptiles-amphibians-insects.html">
+          <strong>Reptiles, Amphibians & Insects</strong>
+          <span>7 examples</span>
+          <p>Terraces, corridors, care buildings, insectariums, and pollinator spaces.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/habitat-buildings-mixed-biomes.html">
+          <strong>Habitat Buildings & Mixed Biomes</strong>
+          <span>18 examples</span>
+          <p>General habitat footprints, domes, themed buildings, and biome concepts.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/visitor-spaces-amenities.html">
+          <strong>Visitor Spaces & Amenities</strong>
+          <span>16 examples</span>
+          <p>Plazas, cafes, gift shops, amphitheaters, decks, playgrounds, and guest spaces.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/education-research-conservation.html">
+          <strong>Education, Research & Conservation</strong>
+          <span>13 examples</span>
+          <p>Learning centers, labs, conservation hubs, and public discovery spaces.</p>
+        </a>
+
+
+        <a class="category-link-card" href="geometry/care-staff-operations.html">
+          <strong>Care, Staff & Operations</strong>
+          <span>15 examples</span>
+          <p>Veterinary, keeper, service, security, and backstage support buildings.</p>
+        </a>
+
+      </section>
+
+      <section class="resource-tools" aria-label="Find geometry examples">
+        <div class="resource-field">
+          <label for="geometrySearch">Search</label>
+          <input id="geometrySearch" type="search" placeholder="Try penguin, rectangle, aviary, visitor, clinic">
+        </div>
+        <div class="resource-field">
+          <label for="geometryCategoryFilter">Theme</label>
+          <select id="geometryCategoryFilter"></select>
+        </div>
+        <div class="resource-field">
+          <label for="geometryAnimalFilter">Animal type</label>
+          <select id="geometryAnimalFilter"></select>
+        </div>
+        <div class="resource-field">
+          <label for="geometryHabitatFilter">Habitat idea</label>
+          <select id="geometryHabitatFilter"></select>
+        </div>
+        <div class="resource-field">
+          <label for="geometryShapeFilter">Geometry type</label>
+          <select id="geometryShapeFilter"></select>
+        </div>
+      </section>
+
+      <p id="geometryResultsMeta" class="status-message" role="status"></p>
+      <section id="geometryGallery" class="resource-grid" aria-label="Geometry example gallery"></section>
+
+    </div>
+      <script src="geometry-gallery.js"></script>
+  </body>
+</html>

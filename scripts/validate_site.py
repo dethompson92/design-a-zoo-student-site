@@ -12,16 +12,24 @@ from pathlib import Path
 SITE_ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_ROWS = 1711
 EXPECTED_HABITATS = 50
+EXPECTED_GEOMETRY_EXAMPLES = 125
+EXPECTED_GEOMETRY_CATEGORIES = 10
 
 REQUIRED_FILES = [
     "index.html",
     "styles.css",
     "app.js",
+    "geometry.html",
+    "geometry-gallery.js",
+    "enclosure-examples.html",
+    "enclosure-examples.js",
     "data/animals.json",
     "data/animal_verification.json",
     "data/habitats.json",
+    "data/geometry_examples.json",
     "docs/AUDIT.md",
     "docs/ANIMAL_DATA_AUDIT.md",
+    "docs/GEOMETRY_GALLERY_AUDIT.md",
     ".github/workflows/pages.yml",
 ]
 
@@ -107,6 +115,24 @@ ALLOWED_LICENSE_TOKENS = {
     "cc by sa",
 }
 
+REQUIRED_GEOMETRY_KEYS = {
+    "id",
+    "title",
+    "slug",
+    "source_filename",
+    "asset_path",
+    "category_slug",
+    "category",
+    "category_description",
+    "animal_group",
+    "habitat_theme",
+    "geometry_type",
+    "design_use",
+    "keywords",
+    "width",
+    "height",
+}
+
 
 def load_json(path: str) -> object:
     return json.loads((SITE_ROOT / path).read_text(encoding="utf-8"))
@@ -132,14 +158,31 @@ def validate_files() -> None:
     habitat_images = sorted((SITE_ROOT / "assets" / "habitats").glob("*.png"))
     require(len(habitat_images) == EXPECTED_HABITATS, f"Expected {EXPECTED_HABITATS} habitat PNGs, found {len(habitat_images)}")
 
+    geometry_images = sorted((SITE_ROOT / "assets" / "geometry").glob("**/*.webp"))
+    require(
+        len(geometry_images) == EXPECTED_GEOMETRY_EXAMPLES,
+        f"Expected {EXPECTED_GEOMETRY_EXAMPLES} geometry WebP images, found {len(geometry_images)}",
+    )
+    geometry_pngs = sorted((SITE_ROOT / "assets" / "geometry").glob("**/*.png"))
+    require(not geometry_pngs, "Geometry source PNGs should not be copied into the public assets folder")
+
+    geometry_pages = sorted((SITE_ROOT / "geometry").glob("*.html"))
+    require(
+        len(geometry_pages) == EXPECTED_GEOMETRY_CATEGORIES,
+        f"Expected {EXPECTED_GEOMETRY_CATEGORIES} geometry category pages, found {len(geometry_pages)}",
+    )
+
 
 def validate_data() -> None:
     animals = load_json("data/animals.json")
     habitats = load_json("data/habitats.json")
+    geometry = load_json("data/geometry_examples.json")
     require(isinstance(animals, list), "animals.json must be a list")
     require(isinstance(habitats, list), "habitats.json must be a list")
+    require(isinstance(geometry, dict), "geometry_examples.json must be an object")
     require(len(animals) == EXPECTED_ROWS, f"Expected {EXPECTED_ROWS} animal entries, found {len(animals)}")
     require(len(habitats) == EXPECTED_HABITATS, f"Expected {EXPECTED_HABITATS} habitats, found {len(habitats)}")
+    validate_geometry_data(geometry)
 
     ids = [row["animal_id"] for row in animals]
     require(len(ids) == len(set(ids)), "Animal IDs must be unique")
@@ -196,6 +239,42 @@ def validate_data() -> None:
         require(habitat["animal_count"] >= 1, f"{habitat['name']} must have at least one animal")
 
 
+def validate_geometry_data(geometry: dict) -> None:
+    categories = geometry.get("categories")
+    examples = geometry.get("examples")
+    require(isinstance(categories, list), "geometry categories must be a list")
+    require(isinstance(examples, list), "geometry examples must be a list")
+    require(
+        len(categories) == EXPECTED_GEOMETRY_CATEGORIES,
+        f"Expected {EXPECTED_GEOMETRY_CATEGORIES} geometry categories, found {len(categories)}",
+    )
+    require(
+        len(examples) == EXPECTED_GEOMETRY_EXAMPLES,
+        f"Expected {EXPECTED_GEOMETRY_EXAMPLES} geometry examples, found {len(examples)}",
+    )
+
+    category_slugs = {category["slug"] for category in categories}
+    require(len(category_slugs) == len(categories), "Geometry category slugs must be unique")
+    ids = [example["id"] for example in examples]
+    source_names = [example["source_filename"] for example in examples]
+    require(len(ids) == len(set(ids)), "Geometry example IDs must be unique")
+    require(len(source_names) == len(set(source_names)), "Geometry source filenames must be unique")
+
+    for category in categories:
+        page = SITE_ROOT / "geometry" / f"{category['slug']}.html"
+        require(page.exists(), f"Missing geometry category page: {page.relative_to(SITE_ROOT)}")
+
+    for example in examples:
+        missing = REQUIRED_GEOMETRY_KEYS - set(example)
+        require(not missing, f"Geometry example {example.get('id', 'unknown')} missing keys: {sorted(missing)}")
+        require(example["category_slug"] in category_slugs, f"{example['id']} has unknown geometry category")
+        require(str(example["asset_path"]).startswith("assets/geometry/"), f"{example['id']} has invalid asset path")
+        require(str(example["asset_path"]).endswith(".webp"), f"{example['id']} geometry asset must be WebP")
+        require((SITE_ROOT / example["asset_path"]).exists(), f"Missing geometry image: {example['asset_path']}")
+        require(isinstance(example["keywords"], list) and example["keywords"], f"{example['id']} must have keywords")
+        require(int(example["width"]) > 0 and int(example["height"]) > 0, f"{example['id']} has invalid dimensions")
+
+
 def validate_markup() -> None:
     html = (SITE_ROOT / "index.html").read_text(encoding="utf-8")
     for token in [
@@ -208,15 +287,25 @@ def validate_markup() -> None:
         "Classroom data note",
         "SWAGG",
         "data-sort-key",
+        "geometry.html",
+        "enclosure-examples.html",
     ]:
         require(token in html, f"index.html is missing expected token: {token}")
+
+    geometry_html = (SITE_ROOT / "geometry.html").read_text(encoding="utf-8")
+    for token in ["geometryGallery", "geometrySearch", "Geometry Example Gallery", "geometry-gallery.js"]:
+        require(token in geometry_html, f"geometry.html is missing expected token: {token}")
+
+    sizes_html = (SITE_ROOT / "enclosure-examples.html").read_text(encoding="utf-8")
+    for token in ["sizeExamples", "sizeSearch", "Enclosure Size Examples", "enclosure-examples.js"]:
+        require(token in sizes_html, f"enclosure-examples.html is missing expected token: {token}")
 
 
 def main() -> None:
     validate_files()
     validate_data()
     validate_markup()
-    print("Validation passed: 1,711 deduplicated animals, 50 habitats, 50 habitat images, and clean public package.")
+    print("Validation passed: 1,711 animals, 50 habitats, 125 geometry examples, and clean public package.")
 
 
 if __name__ == "__main__":

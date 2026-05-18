@@ -7,6 +7,8 @@ Public student-facing animal and habitat database for the Design a Zoo project.
 - A searchable animal-choice website for students.
 - 1,711 deduplicated public animal entries built from 1,844 reviewed source rows.
 - 50 habitat records with copied habitat images.
+- 125 organized geometry example images for enclosure and facility design ideas.
+- Enclosure size examples that turn minimum-group area into starter dimensions.
 - Research links for BioKIDS, Animal Diversity Web, GBIF, iNaturalist, habitat, and region lookups.
 - Phase 2 fields for approved animal images, credits, source URLs, providers, and licenses.
 - A validation script and audit report.
@@ -47,6 +49,18 @@ python3 scripts/audit_animals.py
 python3 scripts/build_site.py
 python3 scripts/validate_site.py
 ```
+
+## Rebuild Geometry Gallery
+
+Run this after adding or changing the local geometry worksheet image folder:
+
+```bash
+python3 scripts/build_geometry_gallery.py
+python3 scripts/validate_site.py
+```
+
+The source folder stays local. The public site uses optimized WebP copies in `assets/geometry/`, plus category pages under `geometry/`.
+See `docs/GEOMETRY_GALLERY_AUDIT.md` for the category counts and source-file notes.
 
 ## Animal Image Pipeline
 

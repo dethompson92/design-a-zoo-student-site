@@ -1,6 +1,6 @@
 # Design a Zoo Public Student Website Audit
 
-Generated: 2026-05-18 02:19:29
+Generated: 2026-05-18 02:40:41
 
 ## Source of Truth
 
@@ -15,6 +15,8 @@ Generated: 2026-05-18 02:19:29
 - Kept rows whose source `scientific_name` was `Not specified`: 191
 - Animal rows with approved images: 15
 - Unique approved animal image files: 15
+- Geometry example images: 125
+- Geometry example categories: 10
 
 ## Animal Verification
 
@@ -27,7 +29,10 @@ Generated: 2026-05-18 02:19:29
 - `data/animals.json` contains the public animal-choice data plus Phase 2 image fields.
 - `data/animal_verification.json` records duplicate cleanup, taxonomy status, and research links.
 - `data/habitats.json` contains habitat summaries and habitat image paths.
+- `data/geometry_examples.json` contains the organized geometry example index.
 - `assets/habitats/` contains the 50 copied habitat PNG assets.
+- `assets/geometry/` contains optimized WebP copies of local worksheet example images.
+- `geometry.html`, `geometry/`, and `enclosure-examples.html` provide student design-reference pages.
 - `scripts/validate_site.py` verifies the public site package before deployment.
 
 ## Excluded From Public Repo
@@ -36,6 +41,7 @@ Generated: 2026-05-18 02:19:29
 - Teacher guides, answer materials, archives, and generated packet workspaces.
 - The contaminated larger CSVs: `all_animals.csv`, `all_animals_final.csv`, and `all_animals_comprehensive.csv`.
 - The polluted `animals/` markdown folder, which includes generated CSS/JavaScript fragments and extra non-student records.
+- The original 125 geometry worksheet PNG source folder; the public site uses optimized copies only.
 
 ## Data Quality Notes
 
@@ -45,6 +51,7 @@ Generated: 2026-05-18 02:19:29
 - Individual animal images are only published after batch approval. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
 - Approved image records also include `image_license_name`, `image_license_url`, and `image_provider`.
 - Habitat images are available now. Some student habitat labels needed explicit mapping to the closest existing habitat asset.
+- Geometry examples are grouped by student-facing theme, animal type, habitat idea, and geometry type.
 
 ## Explicit Habitat Image Mappings
 

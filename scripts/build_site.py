@@ -352,6 +352,13 @@ def audit_markdown(animals: list[dict[str, object]], habitats: list[dict[str, ob
     designs = Counter(str(row["suggested_enclosure_design_category"]) for row in animals)
     verification_statuses = Counter(str(row["verification_status"]) for row in animals)
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    geometry_examples = 0
+    geometry_categories = 0
+    geometry_path = DATA_DIR / "geometry_examples.json"
+    if geometry_path.exists():
+        geometry = json.loads(geometry_path.read_text(encoding="utf-8"))
+        geometry_examples = len(geometry.get("examples", []))
+        geometry_categories = len(geometry.get("categories", []))
 
     override_lines = [
         f"- {name} -> assets/habitats/{filename}"
@@ -376,6 +383,8 @@ Generated: {generated_at}
 - Kept rows whose source `scientific_name` was `Not specified`: {not_specified:,}
 - Animal rows with approved images: {rows_with_images:,}
 - Unique approved animal image files: {unique_images:,}
+- Geometry example images: {geometry_examples:,}
+- Geometry example categories: {geometry_categories:,}
 
 ## Animal Verification
 
@@ -387,7 +396,10 @@ Generated: {generated_at}
 - `data/animals.json` contains the public animal-choice data plus Phase 2 image fields.
 - `data/animal_verification.json` records duplicate cleanup, taxonomy status, and research links.
 - `data/habitats.json` contains habitat summaries and habitat image paths.
+- `data/geometry_examples.json` contains the organized geometry example index.
 - `assets/habitats/` contains the 50 copied habitat PNG assets.
+- `assets/geometry/` contains optimized WebP copies of local worksheet example images.
+- `geometry.html`, `geometry/`, and `enclosure-examples.html` provide student design-reference pages.
 - `scripts/validate_site.py` verifies the public site package before deployment.
 
 ## Excluded From Public Repo
@@ -396,6 +408,7 @@ Generated: {generated_at}
 - Teacher guides, answer materials, archives, and generated packet workspaces.
 - The contaminated larger CSVs: `all_animals.csv`, `all_animals_final.csv`, and `all_animals_comprehensive.csv`.
 - The polluted `animals/` markdown folder, which includes generated CSS/JavaScript fragments and extra non-student records.
+- The original 125 geometry worksheet PNG source folder; the public site uses optimized copies only.
 
 ## Data Quality Notes
 
@@ -405,6 +418,7 @@ Generated: {generated_at}
 - Individual animal images are only published after batch approval. Every animal row includes `animal_image_path`, `image_alt`, `image_credit`, and `image_source` for the Phase 2 image pipeline.
 - Approved image records also include `image_license_name`, `image_license_url`, and `image_provider`.
 - Habitat images are available now. Some student habitat labels needed explicit mapping to the closest existing habitat asset.
+- Geometry examples are grouped by student-facing theme, animal type, habitat idea, and geometry type.
 
 ## Explicit Habitat Image Mappings
 

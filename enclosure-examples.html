@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enclosure Size Examples</title>
+    <meta
+      name="description"
+      content="Student-facing enclosure size and dimension examples for the Design a Zoo project."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell student-page">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Student resources</p>
+          <h1>Enclosure Size Examples</h1>
+          <p class="subhead">
+            Compare planning areas, rectangle dimensions, budget impact, and scale references before drawing your zoo layout.
+          </p>
+        </div>
+        <div class="budget-badge" aria-label="Project budget">
+          <span>Project Budget</span>
+          <strong>$2,500,000</strong>
+        </div>
+      </header>
+
+      <nav class="site-nav" aria-label="Student pages">
+        <a href="index.html">Animal Choices</a>
+        <a href="geometry.html">Geometry Examples</a>
+        <a class="active" href="enclosure-examples.html">Enclosure Sizes</a>
+      </nav>
+
+      <section class="notice" aria-label="Classroom data note">
+        <strong>Classroom data note:</strong>
+        These dimensions come from the simplified classroom planning data. They show the minimum group space, not real animal-care standards.
+      </section>
+
+      <section class="resource-tools" aria-label="Find enclosure size examples">
+        <div class="resource-field">
+          <label for="sizeSearch">Search</label>
+          <input id="sizeSearch" type="search" placeholder="Animal, habitat, region, or design hint">
+        </div>
+
+        <div class="resource-field">
+          <label for="sizeBandFilter">Size band</label>
+          <select id="sizeBandFilter">
+            <option value="">All size bands</option>
+            <option value="compact">Compact</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+            <option value="campus">Campus-scale</option>
+          </select>
+        </div>
+
+        <div class="resource-field">
+          <label for="sizeHabitatFilter">Habitat</label>
+          <select id="sizeHabitatFilter">
+            <option value="">All habitats</option>
+          </select>
+        </div>
+
+        <div class="resource-field">
+          <label for="sizeSort">Sort</label>
+          <select id="sizeSort">
+            <option value="space_planning_sq_units">Smallest space first</option>
+            <option value="space_desc">Largest space first</option>
+            <option value="cost_planning_usd">Lowest cost first</option>
+            <option value="animal_name">Animal name</option>
+          </select>
+        </div>
+      </section>
+
+      <p id="sizeResultsMeta" class="status-message" role="status"></p>
+      <section id="sizeExamples" class="dimension-grid" aria-label="Enclosure size examples"></section>
+
+      <div class="pagination">
+        <button id="sizeLoadMore" type="button">Load More</button>
+      </div>
+    </div>
+
+    <script src="enclosure-examples.js"></script>
+  </body>
+</html>
