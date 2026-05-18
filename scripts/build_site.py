@@ -17,7 +17,10 @@ from urllib.parse import urlencode
 SITE_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = SITE_ROOT.parent
 SOURCE_CSV = PROJECT_ROOT / "Design_a_Zoo_Exhibition_Capstone_Project_Packet_Package" / "zoo_animals_student_database_final.csv"
-SOURCE_HABITATS = PROJECT_ROOT / "Wild_Ecosystem_Habitats_Collection"
+SOURCE_HABITATS_CANDIDATES = [
+    PROJECT_ROOT / "Wild_Ecosystem_Habitats_Collection",
+    PROJECT_ROOT.parent / "Wild_Ecosystem_Habitats_Collection",
+]
 DATA_DIR = SITE_ROOT / "data"
 ASSET_DIR = SITE_ROOT / "assets" / "habitats"
 DOCS_DIR = SITE_ROOT / "docs"
@@ -145,13 +148,18 @@ def approved_image_for(manifest: dict[str, dict[str, object]], animal_name: str)
     if not image_path:
         return {}
 
+    license_name = str(record.get("license_name") or "").strip()
+    license_url = str(record.get("license_url") or "").strip()
+    if not license_url and license_name.lower() in {"public domain", "publicdomain", "pd", "pdm"}:
+        license_url = "https://creativecommons.org/publicdomain/mark/1.0/"
+
     return {
         "animal_image_path": image_path,
         "image_alt": str(record.get("alt_text") or f"{animal_name} photo").strip(),
         "image_credit": str(record.get("credit") or "").strip(),
         "image_source": str(record.get("source_url") or "").strip(),
-        "image_license_name": str(record.get("license_name") or "").strip(),
-        "image_license_url": str(record.get("license_url") or "").strip(),
+        "image_license_name": license_name,
+        "image_license_url": license_url,
         "image_provider": str(record.get("provider") or "").strip(),
     }
 
@@ -288,7 +296,8 @@ def copy_habitat_assets() -> dict[str, str]:
     for existing in ASSET_DIR.glob("*.png"):
         existing.unlink()
 
-    habitat_files = sorted(SOURCE_HABITATS.glob("*.png"))
+    source_habitats = next((path for path in SOURCE_HABITATS_CANDIDATES if path.exists()), SOURCE_HABITATS_CANDIDATES[0])
+    habitat_files = sorted(source_habitats.glob("*.png"))
     if len(habitat_files) != EXPECTED_HABITATS:
         raise SystemExit(f"Expected {EXPECTED_HABITATS} habitat PNGs, found {len(habitat_files)}")
 

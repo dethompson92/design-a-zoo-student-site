@@ -1,6 +1,6 @@
 # Design a Zoo Public Student Website Audit
 
-Generated: 2026-05-18 02:40:41
+Generated: 2026-05-18 03:36:09
 
 ## Source of Truth
 
@@ -13,8 +13,8 @@ Generated: 2026-05-18 02:40:41
 - Habitats: 50
 - World/region labels: 220
 - Kept rows whose source `scientific_name` was `Not specified`: 191
-- Animal rows with approved images: 15
-- Unique approved animal image files: 15
+- Animal rows with approved images: 182
+- Unique approved animal image files: 182
 - Geometry example images: 125
 - Geometry example categories: 10
 
